@@ -1,0 +1,57 @@
+.image-slider {
+  display: flex;
+  gap: 50px;
+  width: 800px;
+  height: 800px;
+}
+
+.main-image {
+  position: relative;
+  display: flex;
+}
+
+.main-image img {
+  max-height: 700px;
+  max-width: 700px;
+  display: block;
+}
+
+.main-image button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.main-image button:first-child {
+  left: 10px;
+}
+
+.main-image button:last-child {
+  right: 10px;
+}
+
+.thumbnails {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  gap: 20px;
+}
+
+.thumbnails img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.thumbnails img:hover,
+.thumbnails img.active {
+  opacity: 1;
+}

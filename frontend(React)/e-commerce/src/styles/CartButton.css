@@ -1,0 +1,24 @@
+.cart-button {
+    position: relative;
+    cursor: pointer;
+}
+
+
+.total-items {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+    left: 10px;
+    bottom: 15px;
+    z-index: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font: Roboto;
+    font-weight: 700;
+}

@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+.Layout {
+  min-height: 100vh;
+  max-height: 100%;
+  width: 100vw;
+  padding: 0 100px;
+  box-sizing: border-box;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.home {
+  width: 100%;
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+
+.category-heading {
+  font-size: 42px;
+  font-family: Raleway;
+  margin-bottom: 100px;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 100%; /* Ensure grid doesn't exceed the container */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .item-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .item-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .item-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 column for very small screens */
+  }
+}
+
+.desc {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.out-of-stock {
+  background: blue;
+}

@@ -1,0 +1,56 @@
+.product-page {
+  margin-top: 80px;
+  height: 100%;
+  display: flex;
+  gap: 109px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.product-info {
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.product-info h1 {
+    font-family: Raleway;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 27px;
+    margin: 0;
+}
+
+.add-to-cart-btn {
+  background: #5ece7b;
+  font-family: Raleway;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: #ffff;
+
+  border: none;
+  padding: 16px 90px;
+  cursor: pointer;
+}
+
+.price-cont div {
+  font-size: 24px;
+  color: #1d1f22;
+  font-weight: 700;
+  font-family: Raleway;
+}
+
+.price-cont h2 {
+  font-size: 18px;
+  font-family: Roboto Condensed;
+  font-weight: 700;
+  color: #1d1f22;
+}
+
+.product-info p {
+  line-height: 25px;
+  font-family: "Roboto";
+}
