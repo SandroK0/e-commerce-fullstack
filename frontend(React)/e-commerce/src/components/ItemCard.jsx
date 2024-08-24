@@ -35,7 +35,7 @@ class ItemCard extends Component {
       id: item.id,
       name: item.name,
       img: item.images[0],
-      price: item.price,
+      price: item.price.amount,
       attributes,
     };
 

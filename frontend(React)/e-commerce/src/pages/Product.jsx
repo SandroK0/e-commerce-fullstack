@@ -46,12 +46,13 @@ class Product extends Component {
 
   addToCart = (item) => {
     const { addItem } = this.props;
+    const { attributes } = this.state;
 
     let ITEM = {
       id: item.id,
       name: item.name,
       img: item.images[0],
-      price: item.price,
+      price: item.price.amount,
       attributes,
     };
 
@@ -59,10 +60,13 @@ class Product extends Component {
   };
 
   setAttribute = (attribute) => {
+    const updatedAttributes = this.state.attributes.filter(
+      (att) => att.attribute_name !== attribute.name
+    );
+
     this.setState({
-      ...this.state,
       attributes: [
-        ...this.state.attributes,
+        ...updatedAttributes,
         { attribute_name: attribute.name, attribute_value: attribute.value },
       ],
     });
@@ -70,8 +74,6 @@ class Product extends Component {
 
   render() {
     const { data, loading, error } = this.state;
-
-    console.log(this.state.attributes);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <>{error.message}</>;
@@ -108,7 +110,6 @@ class Product extends Component {
                     break;
                 }
               })}
-
               <div className="price-cont">
                 <h2>Price:</h2>
                 <div>

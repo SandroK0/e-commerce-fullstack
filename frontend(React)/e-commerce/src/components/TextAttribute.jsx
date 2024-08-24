@@ -9,14 +9,19 @@ export default class TextAttribute extends Component {
       selectedAttribute: null,
     };
   }
+  
   handleSelect = (item) => {
-    this.setState({ ...this.state, selectedAttribute: item.displayValue });
-    this.props.setAttribute(item);
+    this.setState({ selectedAttribute: item.displayValue });
+
+    this.props.setAttribute({
+      name: this.state.attribute.name,
+      value: item.value,
+    });
   };
 
   render() {
     const { attribute, selectedAttribute } = this.state;
-    const selected = { color: "white", background: "#1D1F22" };
+    const selectedStyle = { color: "white", background: "#1D1F22" };
 
     return (
       <div className="size-att">
@@ -27,7 +32,7 @@ export default class TextAttribute extends Component {
               key={item.id}
               className="size"
               style={{
-                ...(item.displayValue === selectedAttribute ? selected : {}),
+                ...(item.displayValue === selectedAttribute ? selectedStyle : {}),
               }}
               onClick={() => this.handleSelect(item)}
             >

@@ -16,9 +16,9 @@
 .items {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
 
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: auto; /* enables horizontal scrolling */
   white-space: nowrap; /* prevents the content from wrapping */
 }
@@ -45,4 +45,27 @@
   height: 100%;
   z-index: 1;
   background-color: #23232390;
+}
+
+.my-bag {
+  font-family: Raleway;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 26px;
+
+}
+
+.my-bag span {
+  font-weight: 500;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: Raleway;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 26px;
 }

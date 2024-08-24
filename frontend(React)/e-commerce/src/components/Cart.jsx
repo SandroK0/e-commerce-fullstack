@@ -33,23 +33,30 @@ class Cart extends Component {
   };
 
   render() {
-    const { items, emptyCart, totalItems, toggleCart, isEmpty } = this.props;
+    const { items, emptyCart, totalItems, toggleCart, isEmpty, cartTotal } =
+      this.props;
 
     return (
       <div className="blur">
         <div className="cart-cont">
-          <div>My bag, {totalItems} items</div>
+          <div className="my-bag">
+            My bag, <span>{totalItems} items</span>
+          </div>
           <div className="items">
             {items.map((item) => (
               <CartItem item={item} key={item.id}></CartItem>
             ))}
           </div>
-          <div>Total: {}</div>
+          <div className="total">
+            <div>Total:</div>
+            <div>${cartTotal}</div>
+          </div>
           <button
             className="btn"
             onClick={() => {
-              // this.placeOrder(items);
+              this.placeOrder(items);
               emptyCart();
+              toggleCart();
             }}
           >
             PLACE ORDER

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import "../styles/CartItem.css";
 import { withCart } from "../utils/withCart";
+import SwatchAttribute from "./SwatchAttribute";
+import TextAttribute from "./TextAttribute";
 
 class CartItem extends Component {
   render() {

@@ -10,13 +10,18 @@ export default class SwatchAttribute extends Component {
     };
   }
 
-  handleSelect = (value) => {
-    this.setState({ ...this.state, selectedAttribute: value });
+  handleSelect = (item) => {
+    this.setState({ selectedAttribute: item.value });
+
+    this.props.setAttribute({
+      name: this.state.attribute.name,
+      value: item.value,
+    });
   };
 
   render() {
     const { attribute, selectedAttribute } = this.state;
-    const selected = {
+    const selectedStyle = {
       border: "2px solid #5ECE7B",
       padding: "5px",
     };
@@ -30,9 +35,9 @@ export default class SwatchAttribute extends Component {
               className="color"
               style={{
                 background: item.value,
-                ...(item.value === selectedAttribute ? selected : {}),
+                ...(item.value === selectedAttribute ? selectedStyle : {}),
               }}
-              onClick={() => this.handleSelect(item.value)}
+              onClick={() => this.handleSelect(item)}
             ></div>
           ))}
         </div>
