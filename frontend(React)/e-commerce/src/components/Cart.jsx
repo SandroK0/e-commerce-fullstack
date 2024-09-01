@@ -14,7 +14,7 @@ class Cart extends Component {
         product_id: item.id,
         name: item.name,
         quantity: item.quantity,
-        attributes: item.attributes,
+        attributes: item.selectedAttributes,
       };
     });
 
@@ -40,7 +40,10 @@ class Cart extends Component {
       <div className="blur">
         <div className="cart-cont">
           <div className="my-bag">
-            My bag, <span>{totalItems} items</span>
+            My bag,{" "}
+            <span>
+              {totalItems} {totalItems > 1 ? "items" : "item"}
+            </span>
           </div>
           <div className="items">
             {items.map((item) => (
@@ -49,12 +52,12 @@ class Cart extends Component {
           </div>
           <div className="total">
             <div>Total:</div>
-            <div>${cartTotal}</div>
+            <div>${cartTotal.toFixed(2)}</div>
           </div>
           <button
             className="btn"
             onClick={() => {
-              this.placeOrder(items);
+              // this.placeOrder(items);
               emptyCart();
               toggleCart();
             }}

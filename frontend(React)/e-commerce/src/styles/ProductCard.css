@@ -1,4 +1,4 @@
-.item-card {
+.product-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,12 +11,16 @@
   font-weight: 300;
   cursor: pointer;
   box-sizing: border-box;
+
+  width: 362px;
+
 }
 
 .cart-btn {
+  all:unset;
   position: absolute;
-  top: 304px;
-  left: 287px;
+  bottom: -40px;
+  left: 250px;
   z-index: 1;
 }
 
@@ -25,6 +29,11 @@
     align-items: center;
     justify-content: center;
     position: relative;
+}
+
+.product-img{
+  height: 300px;
+  width: auto;
 }
 
 

@@ -80,8 +80,8 @@ mutation createOrder($items: [OrderItemInput!]!) {
       name
       quantity
       attributes {
-        attribute_name
-        attribute_value
+        name
+        value
       }
     }
     order_date

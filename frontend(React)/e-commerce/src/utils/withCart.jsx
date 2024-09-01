@@ -12,6 +12,7 @@ export const withCart = (WrappedComponent) => {
       emptyCart,
       updateItemQuantity,
       cartTotal,
+      updateItem,
     } = useCart();
 
     return (
@@ -25,6 +26,7 @@ export const withCart = (WrappedComponent) => {
         updateItemQuantity={updateItemQuantity}
         emptyCart={emptyCart}
         cartTotal={cartTotal}
+        updateItem={updateItem}
       />
     );
   };

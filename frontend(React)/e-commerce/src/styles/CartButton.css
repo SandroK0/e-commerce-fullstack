@@ -1,4 +1,5 @@
 .cart-button {
+    all: unset;
     position: relative;
     cursor: pointer;
 }

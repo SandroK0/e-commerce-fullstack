@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import "../styles/ColorAttribute.css";
+import "../styles/SwatchAttribute.css";
 
 export default class SwatchAttribute extends Component {
   constructor(props) {
     super(props);
     this.state = {
       attribute: props.attribute,
-      selectedAttribute: null,
+      selectedAttribute: props.selectedAttribute ? props.selectedAttribute : {value: null},
     };
   }
 
   handleSelect = (item) => {
-    this.setState({ selectedAttribute: item.value });
+    this.setState({ selectedAttribute: item });
 
     this.props.setAttribute({
+      type: this.state.attribute.type,
       name: this.state.attribute.name,
       value: item.value,
     });
@@ -35,7 +36,9 @@ export default class SwatchAttribute extends Component {
               className="color"
               style={{
                 background: item.value,
-                ...(item.value === selectedAttribute ? selectedStyle : {}),
+                ...(item.value === selectedAttribute.value
+                  ? selectedStyle
+                  : {}),
               }}
               onClick={() => this.handleSelect(item)}
             ></div>

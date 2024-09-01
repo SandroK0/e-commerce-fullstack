@@ -30,3 +30,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.color-att h2 {
+  font-size: 1px;
+}
+
+img {
+  height: 100%
+}

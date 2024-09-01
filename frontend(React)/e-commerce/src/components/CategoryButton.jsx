@@ -18,7 +18,9 @@ class CategoryButton extends Component {
       <div className="category-button">
         <div
           className="category-text"
-          data-testid="category-link"
+          data-testid={
+            this.isActive() ? "active-category-link" : "category-link"
+          }
           onClick={() => {
             this.props.setCategory(this.props.category);
             this.navigateToHome();

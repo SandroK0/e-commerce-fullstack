@@ -1,13 +1,32 @@
 import React, { Component } from "react";
-
 import "../styles/CartItem.css";
 import { withCart } from "../utils/withCart";
-import SwatchAttribute from "./SwatchAttribute";
-import TextAttribute from "./TextAttribute";
+import DisplayAttributes from "./DisplayAttributes";
 
 class CartItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      item: props.item,
+      updateItem: props.updateItem,
+      updateItemQuantity: props.updateItemQuantity,
+    };
+  }
+
+  editAttribute = (attribute) => {
+    const updatedAttributes = this.state.item.selectedAttributes.filter(
+      (att) => att.name !== attribute.name
+    );
+
+    this.state.updateItem(this.state.item.id, {
+      ...this.state.item,
+      selectedAttributes: [...updatedAttributes, attribute],
+    });
+  };
+
   render() {
-    const { item, removeItem, addItem, updateItemQuantity } = this.props;
+    const { updateItemQuantity } = this.state;
+    const { item } = this.props;
 
     return (
       <div className="cont">
@@ -17,6 +36,11 @@ class CartItem extends Component {
             <div>
               {item.price.currency_symbol} {item.price.amount}
             </div>
+            <DisplayAttributes
+              selectedAttributes={item.selectedAttributes}
+              attributes={item.attributes}
+              setAttribute={this.editAttribute}
+            ></DisplayAttributes>
           </div>
         </div>
         <div className="buttons">

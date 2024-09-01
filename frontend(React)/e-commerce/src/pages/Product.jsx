@@ -1,20 +1,19 @@
-import React, { Component, useState } from "react";
+import { Component } from "react";
 import ImageSlider from "../components/ImageSlider";
 import { GET_PRODUCT_BY_ID } from "../graphql/queries";
 import { GraphQL } from "../graphql/graphqlClient";
-import TextAttribute from "../components/TextAttribute.jsx";
 import { withRouter } from "../utils/withRouter.jsx";
 import { withCart } from "../utils/withCart.jsx";
 import "../styles/Product.css";
-import SwatchAttribute from "../components/SwatchAttribute.jsx";
 import parse from "html-react-parser";
+import DisplayAttributes from "../components/DisplayAttributes.jsx";
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
       locationState: props.location.state,
-      attributes: [],
+      selectedAttributes: [],
     };
   }
 
@@ -46,70 +45,50 @@ class Product extends Component {
 
   addToCart = (item) => {
     const { addItem } = this.props;
-    const { attributes } = this.state;
-
+    const { selectedAttributes } = this.state;
     let ITEM = {
       id: item.id,
       name: item.name,
       img: item.images[0],
       price: item.price.amount,
-      attributes,
+      attributes: item.attributes,
+      selectedAttributes,
     };
 
     addItem(ITEM, 1);
   };
 
   setAttribute = (attribute) => {
-    const updatedAttributes = this.state.attributes.filter(
-      (att) => att.attribute_name !== attribute.name
+    const updatedAttributes = this.state.selectedAttributes.filter(
+      (att) => att.name !== attribute.name
     );
-
     this.setState({
-      attributes: [
-        ...updatedAttributes,
-        { attribute_name: attribute.name, attribute_value: attribute.value },
-      ],
+      selectedAttributes: [...updatedAttributes, attribute],
     });
   };
 
   render() {
-    const { data, loading, error } = this.state;
+    const { data, loading, error, selectedAttributes } = this.state;
+    const grayedOutBtn = { background: "Gray", cursor: "default" };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <>{error.message}</>;
     if (data) {
       const item = data.product;
+      const isAttributesSelected =
+        this.state.selectedAttributes.length === item.attributes.length;
+
       return (
         <div>
           <div className="product-page">
             {<ImageSlider images={item.images}></ImageSlider>}
             <div className="product-info">
               <h1>{item.name}</h1>
-              {item.attributes.map((attribute) => {
-                switch (attribute.type) {
-                  case "text":
-                    return (
-                      <TextAttribute
-                        key={attribute.id}
-                        attribute={attribute}
-                        setAttribute={this.setAttribute}
-                      ></TextAttribute>
-                    );
-                    break;
-                  case "swatch":
-                    return (
-                      <SwatchAttribute
-                        key={attribute.id}
-                        attribute={attribute}
-                        setAttribute={this.setAttribute}
-                      ></SwatchAttribute>
-                    );
-                    break;
-                  default:
-                    return <></>;
-                    break;
-                }
-              })}
+              <DisplayAttributes
+                selectedAttributes={selectedAttributes}
+                setAttribute={this.setAttribute}
+                attributes={item.attributes}
+              ></DisplayAttributes>
               <div className="price-cont">
                 <h2>Price:</h2>
                 <div>
@@ -118,7 +97,12 @@ class Product extends Component {
               </div>
               <button
                 className="add-to-cart-btn"
-                onClick={() => this.addToCart(item)}
+                style={{ ...(!isAttributesSelected && grayedOutBtn) }}
+                onClick={() => {
+                  if (isAttributesSelected) {
+                    this.addToCart(item);
+                  }
+                }}
               >
                 ADD TO CART
               </button>

@@ -45,8 +45,8 @@ class OrderResolver
                         $stmt = $this->pdo->prepare('INSERT INTO order_item_attributes (item_id, attribute_name, attribute_value) VALUES (:item_id, :attribute_name, :attribute_value)');
                         $stmt->execute([
                             'item_id' => $itemId,
-                            'attribute_name' => $attribute['attribute_name'],
-                            'attribute_value' => $attribute['attribute_value'],
+                            'attribute_name' => $attribute['name'],
+                            'attribute_value' => $attribute['value'],
                         ]);
                     }
                 }

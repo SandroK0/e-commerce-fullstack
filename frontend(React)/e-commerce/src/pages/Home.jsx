@@ -1,10 +1,10 @@
 import { Component } from "react";
-import ItemCard from "../components/ItemCard";
+import ProductCard from "../components/ProductCard";
 import { CategoryConsumer } from "../context/CategoryContext.jsx";
 import { GET_PRODUCTS_QUERY } from "../graphql/queries.js";
 import { GraphQL } from "../graphql/graphqlClient.js";
 import { withCart } from "../utils/withCart.jsx";
-import "../styles/Home.css"
+import "../styles/Home.css";
 
 class Home extends Component {
   state = {};
@@ -12,6 +12,10 @@ class Home extends Component {
   componentDidMount() {
     this.fetchData();
   }
+
+  foo = () => {
+    console.log("FOO");
+  };
 
   fetchData = async () => {
     try {
@@ -44,11 +48,13 @@ class Home extends Component {
               {data &&
                 data.products
                   .filter(
-                    (item) =>
+                    (product) =>
                       currentCategory === "all" ||
-                      item.category.name === currentCategory
+                      product.category.name === currentCategory
                   )
-                  .map((item) => <ItemCard key={item.id} item={item} />)}
+                  .map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
             </div>
           </div>
         )}

@@ -76,8 +76,8 @@ class SchemaBuilder
         $attributeInputType = new InputObjectType([
             "name" => "AttributeInput",
             "fields" => [
-                "attribute_name" => ["type" => Type::nonNull(Type::string())],
-                "attribute_value" => ["type" => Type::nonNull(Type::string())],
+                "name" => ["type" => Type::nonNull(Type::string())],
+                "value" => ["type" => Type::nonNull(Type::string())],
             ],
         ]);
 
@@ -85,8 +85,8 @@ class SchemaBuilder
         $attributeOutputType = new ObjectType([
             "name" => "AttributOutput",
             "fields" => [
-                "attribute_name" => ["type" => Type::nonNull(Type::string())],
-                "attribute_value" => ["type" => Type::nonNull(Type::string())],
+                "name" => ["type" => Type::nonNull(Type::string())],
+                "value" => ["type" => Type::nonNull(Type::string())],
             ],
         ]);
 
@@ -167,7 +167,7 @@ class SchemaBuilder
                 ],
             ],
         ]);
-        
+
 
         // Create the schema
         return new Schema([

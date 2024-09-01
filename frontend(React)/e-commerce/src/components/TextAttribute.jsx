@@ -1,19 +1,20 @@
 import React, { Component } from "react";
-import "../styles/SizeAttribute.css";
+import "../styles/TextAttribute.css";
 
 export default class TextAttribute extends Component {
   constructor(props) {
     super(props);
     this.state = {
       attribute: props.attribute,
-      selectedAttribute: null,
+      selectedAttribute: props.selectedAttribute ? props.selectedAttribute : {value:null},
     };
   }
-  
+
   handleSelect = (item) => {
-    this.setState({ selectedAttribute: item.displayValue });
+    this.setState({ selectedAttribute: item });
 
     this.props.setAttribute({
+      type: this.state.attribute.type,
       name: this.state.attribute.name,
       value: item.value,
     });
@@ -32,7 +33,9 @@ export default class TextAttribute extends Component {
               key={item.id}
               className="size"
               style={{
-                ...(item.displayValue === selectedAttribute ? selectedStyle : {}),
+                ...(item.value === selectedAttribute.value
+                  ? selectedStyle
+                  : {}),
               }}
               onClick={() => this.handleSelect(item)}
             >

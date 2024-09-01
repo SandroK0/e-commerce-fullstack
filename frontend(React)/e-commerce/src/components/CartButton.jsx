@@ -7,10 +7,10 @@ class CartButton extends Component {
   render() {
     const { handleClick, isEmpty, totalItems } = this.props;
     return (
-      <div className="cart-button" onClick={handleClick}>
+      <button className="cart-button" onClick={handleClick} data-testid='cart-btn'>
         {!isEmpty && <div className="total-items">{totalItems}</div>}
         <img src={cartIcon}></img>
-      </div>
+      </button>
     );
   }
 }
