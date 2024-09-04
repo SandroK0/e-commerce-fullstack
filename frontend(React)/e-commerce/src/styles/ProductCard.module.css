@@ -1,4 +1,4 @@
-.product-card {
+.productCard {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
 
 }
 
-.cart-btn {
+.cartBtn {
   all:unset;
   position: absolute;
   bottom: -40px;
@@ -24,20 +24,20 @@
   z-index: 1;
 }
 
-.img-cont {
+.imgCont {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
 }
 
-.product-img{
+.productImg{
   height: 300px;
   width: auto;
 }
 
 
-.out-of-stock-overlay {
+.outOfStockOverlay {
     position: absolute;
     top: 0;
     left: 0;

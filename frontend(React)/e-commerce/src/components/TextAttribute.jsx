@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import "../styles/TextAttribute.css";
+import Styles from "../styles/TextAttribute.module.css";
+import StylesInCart from "../styles/TextAttributeInCart.module.css";
 
 export default class TextAttribute extends Component {
   constructor(props) {
     super(props);
     this.state = {
       attribute: props.attribute,
-      selectedAttribute: props.selectedAttribute ? props.selectedAttribute : {value:null},
+      selectedAttribute: props.selectedAttribute
+        ? props.selectedAttribute
+        : { value: null },
+      inCart: props.inCart,
     };
   }
 
@@ -21,17 +25,19 @@ export default class TextAttribute extends Component {
   };
 
   render() {
-    const { attribute, selectedAttribute } = this.state;
+    const { attribute, selectedAttribute, inCart } = this.state;
     const selectedStyle = { color: "white", background: "#1D1F22" };
 
+    const styles = inCart ? StylesInCart : Styles;
+
     return (
-      <div className="size-att">
-        <h2>{attribute.name}</h2>
-        <div className="sizes">
+      <div className={styles.attCont}>
+        <h2>{attribute.name.toUpperCase()}:</h2>
+        <div className={styles.attributes}>
           {attribute.items.map((item) => (
             <div
               key={item.id}
-              className="size"
+              className={styles.attributeItem}
               style={{
                 ...(item.value === selectedAttribute.value
                   ? selectedStyle

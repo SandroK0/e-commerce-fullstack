@@ -4,9 +4,9 @@ import { GET_PRODUCT_BY_ID } from "../graphql/queries";
 import { GraphQL } from "../graphql/graphqlClient";
 import { withRouter } from "../utils/withRouter.jsx";
 import { withCart } from "../utils/withCart.jsx";
-import "../styles/Product.css";
 import parse from "html-react-parser";
 import DisplayAttributes from "../components/DisplayAttributes.jsx";
+import styles from "../styles/Product.module.css";
 
 class Product extends Component {
   constructor(props) {
@@ -80,23 +80,24 @@ class Product extends Component {
 
       return (
         <div>
-          <div className="product-page">
+          <div className={styles.productPage}>
             {<ImageSlider images={item.images}></ImageSlider>}
-            <div className="product-info">
+            <div className={styles.productInfo}>
               <h1>{item.name}</h1>
               <DisplayAttributes
                 selectedAttributes={selectedAttributes}
                 setAttribute={this.setAttribute}
                 attributes={item.attributes}
+                inCart={false}
               ></DisplayAttributes>
-              <div className="price-cont">
-                <h2>Price:</h2>
+              <div className={styles.priceCont}>
+                <h2>PRICE:</h2>
                 <div>
                   {item.price.currency_symbol} {item.price.amount}
                 </div>
               </div>
               <button
-                className="add-to-cart-btn"
+                className={styles.addToCartBtn}
                 style={{ ...(!isAttributesSelected && grayedOutBtn) }}
                 onClick={() => {
                   if (isAttributesSelected) {

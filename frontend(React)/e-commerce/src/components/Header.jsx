@@ -7,7 +7,7 @@ import { GET_CATEGORIES_QUERY } from "../graphql/queries.js";
 import { GraphQL } from "../graphql/graphqlClient.js";
 import { withRouter } from "../utils/withRouter.jsx";
 import { withCart } from "../utils/withCart.jsx";
-import "../styles/Header.css";
+import styles from "../styles/Header.module.css";
 
 class Header extends Component {
   state = {};
@@ -41,8 +41,8 @@ class Header extends Component {
     return (
       <CategoryConsumer>
         {({ currentCategory, setCategory }) => (
-          <div className="header">
-            <div className="categories">
+          <div className={styles.header}>
+            <div className={styles.categories}>
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
               {data &&
@@ -55,7 +55,7 @@ class Header extends Component {
                   ></CategoryButton>
                 ))}
             </div>
-            <div className="logo-cont" onClick={this.navigateToHome}>
+            <div className={styles.logoCont} onClick={this.navigateToHome}>
               <img src={logo}></img>
             </div>
             <CartButton handleClick={this.props.toggleCart}></CartButton>

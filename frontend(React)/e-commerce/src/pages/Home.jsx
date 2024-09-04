@@ -4,7 +4,7 @@ import { CategoryConsumer } from "../context/CategoryContext.jsx";
 import { GET_PRODUCTS_QUERY } from "../graphql/queries.js";
 import { GraphQL } from "../graphql/graphqlClient.js";
 import { withCart } from "../utils/withCart.jsx";
-import "../styles/Home.css";
+import styles from "../styles/Home.module.css";
 
 class Home extends Component {
   state = {};
@@ -38,11 +38,11 @@ class Home extends Component {
     return (
       <CategoryConsumer>
         {({ currentCategory }) => (
-          <div className="home">
-            <div className="category-heading">
+          <div className={styles.home}>
+            <div className={styles.categoryHeading}>
               {currentCategory.toUpperCase()}
             </div>
-            <div className="item-grid">
+            <div className={styles.itemGrid}>
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
               {data &&

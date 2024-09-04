@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import "../styles/SwatchAttribute.css";
+import Styles from "../styles/SwatchAttribute.module.css";
+import StylesInCart from "../styles/SwatchAttributeInCart.module.css";
 
 export default class SwatchAttribute extends Component {
   constructor(props) {
     super(props);
     this.state = {
       attribute: props.attribute,
-      selectedAttribute: props.selectedAttribute ? props.selectedAttribute : {value: null},
+      selectedAttribute: props.selectedAttribute
+        ? props.selectedAttribute
+        : { value: null },
+      inCart: props.inCart,
     };
   }
 
@@ -21,19 +25,22 @@ export default class SwatchAttribute extends Component {
   };
 
   render() {
-    const { attribute, selectedAttribute } = this.state;
+    const { attribute, selectedAttribute, inCart } = this.state;
     const selectedStyle = {
       border: "2px solid #5ECE7B",
       padding: "5px",
     };
+
+    const styles = inCart ? StylesInCart : Styles;
+
     return (
-      <div className="color-att">
-        <h2>Color:</h2>
-        <div className="colors">
+      <div className={styles.attCont}>
+        <h2>{attribute.name.toUpperCase()}:</h2>
+        <div className={styles.attributes}>
           {attribute.items.map((item) => (
             <div
               key={item.id}
-              className="color"
+              className={styles.attributeItem}
               style={{
                 background: item.value,
                 ...(item.value === selectedAttribute.value

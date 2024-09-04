@@ -1,26 +1,21 @@
-.sizes {
+.attributes {
   display: flex;
   gap: 12px;
+  align-items: center;
 }
 
-.size-att h2 {
+.attCont h2 {
   font-size: 18px;
   font-family: Roboto Condensed;
   font-weight: 700;
   color: #1d1f22;
 }
 
-.size {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 63px;
-  height: 45px;
-
-  font-size: 16px;
+.attributeItem {
+  width: 32px;
+  height: 32px;
 
   cursor: pointer;
   border: 1px solid black;
+  box-sizing: border-box;
 }
-

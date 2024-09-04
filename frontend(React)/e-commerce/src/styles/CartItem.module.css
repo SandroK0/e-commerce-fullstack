@@ -1,0 +1,52 @@
+.itemCont {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.item {
+  width: 200px;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemQuantity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.itemQuantity button {
+  all: unset;
+  cursor: pointer;
+}
+
+.itemQuantity div {
+  font-family: Raleway;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1d1f22;
+}
+
+.itemImg {
+  height: 60px;
+  width: auto;
+}
+
+.itemName {
+  font-size: 18px;
+  font-family: Raleway;
+  font-weight: 300;
+}
+
+.itemPrice {
+  font-size: 16px;
+  font-family: Raleway;
+  font-weight: 400;
+}

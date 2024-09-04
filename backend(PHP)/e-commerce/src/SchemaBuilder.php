@@ -76,6 +76,7 @@ class SchemaBuilder
         $attributeInputType = new InputObjectType([
             "name" => "AttributeInput",
             "fields" => [
+                "type" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
                 "value" => ["type" => Type::nonNull(Type::string())],
             ],
@@ -85,6 +86,7 @@ class SchemaBuilder
         $attributeOutputType = new ObjectType([
             "name" => "AttributOutput",
             "fields" => [
+                "type" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
                 "value" => ["type" => Type::nonNull(Type::string())],
             ],
@@ -107,19 +109,21 @@ class SchemaBuilder
                 "name" => ["type" => Type::nonNull(Type::string())],
                 "quantity" => ["type" => Type::nonNull(Type::int())],
                 "attributes" => ["type" => Type::listOf($attributeOutputType)],
+                "price" => ["type" => $priceType],
             ],
         ]);
 
         $orderType = new ObjectType([
             "name" => "Order",
             "fields" => [
-                "order_id" => ["type" => Type::nonNull(Type::int())],
+                "id" => ["type" => Type::nonNull(Type::int())],
                 "items" => ["type" => Type::nonNull(Type::listOf($orderItemOutputType))],
                 "order_date" => ["type" => Type::string()],
+                "total" => ["type" => Type::float()]
             ],
-        ]);
+        ]);;
 
-        //QUERY TYPE
+
         $queryType = new ObjectType([
             "name" => "Query",
             "fields" => [
@@ -147,10 +151,16 @@ class SchemaBuilder
                         return $this->categoryResolver->getCategories();
                     },
                 ],
+                "orders" => [
+                    "type" => Type::listOf($orderType),
+                    "resolve" => function ($root, $args) {
+                        return $this->orderResolver->getOrders();
+                    }
+                ]
             ],
         ]);
 
-        // MUTATION TYPE
+
         $mutationType = new ObjectType([
             "name" => "Mutation",
             "fields" => [

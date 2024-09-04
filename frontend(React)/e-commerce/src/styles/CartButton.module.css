@@ -1,11 +1,11 @@
-.cart-button {
+.cartButton {
     all: unset;
     position: relative;
     cursor: pointer;
 }
 
 
-.total-items {
+.totalItems {
     position: absolute;
     width: 20px;
     height: 20px;

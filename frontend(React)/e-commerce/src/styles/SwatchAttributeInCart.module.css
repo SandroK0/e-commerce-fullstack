@@ -1,0 +1,21 @@
+.attributes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.attCont h2 {
+  font-size: 14px;
+  font-family: Roboto Condensed;
+  font-weight: 700;
+  color: #1d1f22;
+}
+
+.attributeItem {
+  width: 16px;
+  height: 16px;
+
+  cursor: pointer;
+  border: 1px solid black;
+  box-sizing: border-box;
+}

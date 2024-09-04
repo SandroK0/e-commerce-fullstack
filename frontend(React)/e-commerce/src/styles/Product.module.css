@@ -1,4 +1,4 @@
-.product-page {
+.productPage {
   margin-top: 80px;
   height: 100%;
   display: flex;
@@ -7,14 +7,14 @@
   margin-bottom: 40px;
 }
 
-.product-info {
+.productInfo {
   max-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-.product-info h1 {
+.productInfo h1 {
     font-family: Raleway;
     font-weight: 600;
     font-size: 30px;
@@ -22,7 +22,7 @@
     margin: 0;
 }
 
-.add-to-cart-btn {
+.addToCartBtn {
   background: #5ece7b;
   font-family: Raleway;
 
@@ -36,21 +36,21 @@
   cursor: pointer;
 }
 
-.price-cont div {
+.priceCont div {
   font-size: 24px;
   color: #1d1f22;
   font-weight: 700;
   font-family: Raleway;
 }
 
-.price-cont h2 {
+.priceCont h2 {
   font-size: 18px;
   font-family: Roboto Condensed;
   font-weight: 700;
   color: #1d1f22;
 }
 
-.product-info p {
+.productInfo p {
   line-height: 25px;
   font-family: "Roboto";
 }

@@ -1,6 +1,6 @@
 import React, { Children, Component } from "react";
 import { withRouter } from "../utils/withRouter";
-import "../styles/CategoryButton.css";
+import styles from "../styles/CategoryButton.module.css";
 
 class CategoryButton extends Component {
   isActive() {
@@ -15,9 +15,9 @@ class CategoryButton extends Component {
 
   render() {
     return (
-      <div className="category-button">
+      <div className={styles.categoryButton}>
         <div
-          className="category-text"
+          className={styles.categoryText}
           data-testid={
             this.isActive() ? "active-category-link" : "category-link"
           }
@@ -29,7 +29,7 @@ class CategoryButton extends Component {
         >
           {this.props.category.toUpperCase()}
         </div>
-        {this.isActive() && <div className="active-underline"></div>}
+        {this.isActive() && <div className={styles.activeUnderline}></div>}
       </div>
     );
   }

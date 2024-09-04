@@ -1,26 +1,25 @@
-.colors {
+.attributes {
   display: flex;
   gap: 12px;
 }
 
-.color-att h2 {
+.attCont h2 {
   font-size: 18px;
   font-family: Roboto Condensed;
   font-weight: 700;
   color: #1d1f22;
 }
 
-.color {
+.attributeItem {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 32px;
-  height: 32px;
+  width: 63px;
+  height: 45px;
 
   font-size: 16px;
 
   cursor: pointer;
   border: 1px solid black;
-  box-sizing: border-box;
 }

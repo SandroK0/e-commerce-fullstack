@@ -1,4 +1,4 @@
-.cart-cont {
+.cartCont {
   position: absolute;
   background-color: white;
   display: flex;
@@ -47,7 +47,7 @@
   background-color: #23232390;
 }
 
-.my-bag {
+.myBag {
   font-family: Raleway;
   font-weight: 700;
   font-size: 16px;
@@ -55,7 +55,7 @@
 
 }
 
-.my-bag span {
+.myBag span {
   font-weight: 500;
 }
 

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import TextAttribute from "../components/TextAttribute.jsx";
 import SwatchAttribute from "../components/SwatchAttribute.jsx";
 
-
 export default class DisplayAttributes extends Component {
   constructor(props) {
     super(props);
@@ -10,11 +9,12 @@ export default class DisplayAttributes extends Component {
       attributes: props.attributes,
       selectedAttributes: props.selectedAttributes,
       setAttribute: props.setAttribute,
+      inCart: props.inCart,
     };
   }
 
   render() {
-    const { attributes, selectedAttributes, setAttribute } = this.state;
+    const { attributes, selectedAttributes, setAttribute, inCart } = this.state;
 
     return (
       <>
@@ -34,6 +34,7 @@ export default class DisplayAttributes extends Component {
                     attribute={attribute}
                     setAttribute={setAttribute}
                     selectedAttribute={selectedAttribute}
+                    inCart={inCart}
                   ></TextAttribute>
                 );
               case "swatch":
@@ -43,6 +44,7 @@ export default class DisplayAttributes extends Component {
                     attribute={attribute}
                     setAttribute={setAttribute}
                     selectedAttribute={selectedAttribute}
+                    inCart={inCart}
                   ></SwatchAttribute>
                 );
               default:

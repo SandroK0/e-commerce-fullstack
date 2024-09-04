@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "../styles/Cart.css";
 import { withCart } from "../utils/withCart";
 import CartItem from "./CartItem";
 import { GraphQL } from "../graphql/graphqlClient";
 import { CREATE_ORDER } from "../graphql/queries";
+import styles from "../styles/Cart.module.css"
 
 class Cart extends Component {
   state = {};
@@ -17,7 +17,7 @@ class Cart extends Component {
         attributes: item.selectedAttributes,
       };
     });
-
+    console.log(orderItems)
     try {
       const data = await GraphQL(CREATE_ORDER, { items: orderItems });
       this.setState({
@@ -37,29 +37,31 @@ class Cart extends Component {
       this.props;
 
     return (
-      <div className="blur">
-        <div className="cart-cont">
-          <div className="my-bag">
+      <div className={styles.blur}>
+        <div className={styles.cartCont}>
+          <div className={styles.myBag}>
             My bag,{" "}
             <span>
               {totalItems} {totalItems > 1 ? "items" : "item"}
             </span>
           </div>
-          <div className="items">
+          <div className={styles.items}>
             {items.map((item) => (
               <CartItem item={item} key={item.id}></CartItem>
             ))}
           </div>
-          <div className="total">
+          <div className={styles.total}>
             <div>Total:</div>
             <div>${cartTotal.toFixed(2)}</div>
           </div>
           <button
-            className="btn"
+            className={styles.btn}
             onClick={() => {
-              // this.placeOrder(items);
-              emptyCart();
-              toggleCart();
+              if (!isEmpty) {
+                this.placeOrder(items);
+                toggleCart();
+                emptyCart();
+              }
             }}
           >
             PLACE ORDER

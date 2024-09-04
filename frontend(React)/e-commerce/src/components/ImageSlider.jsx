@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../styles/ImageSlider.css";
+import styles from "../styles/ImageSlider.module.css";
 
 class ImageSlider extends Component {
   constructor(props) {
@@ -41,8 +41,8 @@ class ImageSlider extends Component {
   render() {
     const { images, currentIndex } = this.state;
     return (
-      <div className="image-slider">
-        <div className="thumbnails">
+      <div className={styles.imageSlider}>
+        <div className={styles.thumbnails}>
           {images.map((image, index) => (
             <img
               key={index}
@@ -53,7 +53,7 @@ class ImageSlider extends Component {
             />
           ))}
         </div>
-        <div className="main-image">
+        <div className={styles.mainImage}>
           <button onClick={this.prevSlide}>{"<"}</button>
           <img src={images[currentIndex]} alt={`Slide ${currentIndex}`} />
           <button onClick={this.nextSlide}>{">"}</button>

@@ -1,0 +1,20 @@
+.categoryText {
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  width: 100%;
+  font-family: Raleway;
+}
+
+.categoryButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.activeUnderline {
+  background: #5ece7b;
+  height: 2px;
+  width: 110%;
+  gap: 30px;
+}

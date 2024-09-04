@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import cartBtn from "../assets/circle-icon.svg";
 import { withRouter } from "../utils/withRouter";
 import { withCart } from "../utils/withCart";
-import "../styles/ProductCard.css";
+import styles from "../styles/ProductCard.module.css"
 
 class ProductCard extends Component {
   constructor(props) {
@@ -64,20 +64,20 @@ class ProductCard extends Component {
 
     return (
       <div
-        className="product-card"
+        className={styles.productCard}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onClick={navigateToProduct}
         style={cardStyle}
       >
-        <div className="img-cont">
-          <img className="product-img" src={product.images[0]} alt="Product" />
+        <div className={styles.imgCont}>
+          <img className={styles.productImg} src={product.images[0]} alt="Product" />
           {!product.inStock && (
-            <div className="out-of-stock-overlay">OUT OF STOCK</div>
+            <div className={styles.outOfStockOverlay}>OUT OF STOCK</div>
           )}
           {this.state.isHovered && product.inStock ? (
             <button
-              className="cart-btn"
+              className={styles.cartBtn}
               onClick={(e) => {
                 this.handleCartClick(e, product);
               }}

@@ -74,12 +74,13 @@ export const GET_PRODUCT_BY_ID = `
 export const CREATE_ORDER = `
 mutation createOrder($items: [OrderItemInput!]!) {
   createOrder(items: $items) {
-    order_id
+    id
     items {
       product_id
       name
       quantity
       attributes {
+        type
         name
         value
       }

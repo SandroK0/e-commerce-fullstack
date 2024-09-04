@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import "../styles/CartItem.css";
 import { withCart } from "../utils/withCart";
 import DisplayAttributes from "./DisplayAttributes";
+import styles from "../styles/CartItem.module.css";
+import plusBtn from "../assets/plus-square.svg";
+import minusBtn from "../assets/minus-square.svg";
 
 class CartItem extends Component {
   constructor(props) {
@@ -29,27 +31,26 @@ class CartItem extends Component {
     const { item } = this.props;
 
     return (
-      <div className="cont">
-        <div>
-          <div className="item-info">
-            <div>{item.name}</div>
-            <div>
-              {item.price.currency_symbol} {item.price.amount}
-            </div>
-            <DisplayAttributes
-              selectedAttributes={item.selectedAttributes}
-              attributes={item.attributes}
-              setAttribute={this.editAttribute}
-            ></DisplayAttributes>
+      <div className={styles.itemCont}>
+        <div className={styles.item}>
+          <div className={styles.itemInfo}>
+            <div className={styles.itemName}>{item.name}</div>
+            <div className={styles.itemPrice}>${item.price.toFixed(2)}</div>
           </div>
+          <DisplayAttributes
+            selectedAttributes={item.selectedAttributes}
+            attributes={item.attributes}
+            setAttribute={this.editAttribute}
+            inCart={true}
+          ></DisplayAttributes>
         </div>
-        <div className="buttons">
+        <div className={styles.itemQuantity}>
           <button
             onClick={() =>
               updateItemQuantity(item.id, (item.quantity ?? 0) + 1)
             }
           >
-            +
+            <img src={plusBtn}></img>
           </button>
           <div>{item.quantity}</div>
           <button
@@ -57,10 +58,10 @@ class CartItem extends Component {
               updateItemQuantity(item.id, (item.quantity ?? 0) - 1)
             }
           >
-            -
+            <img src={minusBtn}></img>
           </button>
         </div>
-        <img src={item.img} width={100}></img>
+        <img src={item.img} width={100} className={styles.itemImg}></img>
       </div>
     );
   }

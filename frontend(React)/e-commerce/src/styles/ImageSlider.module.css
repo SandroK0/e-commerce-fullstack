@@ -1,22 +1,23 @@
-.image-slider {
+.imageSlider {
   display: flex;
   gap: 50px;
   width: 800px;
-  height: 800px;
+  height: 700px;
 }
 
-.main-image {
+.mainImage {
   position: relative;
   display: flex;
 }
 
-.main-image img {
+.mainImage img {
   max-height: 700px;
-  max-width: 700px;
+  max-width: 800px;
+  width: auto;
   display: block;
 }
 
-.main-image button {
+.mainImage button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -27,11 +28,11 @@
   cursor: pointer;
 }
 
-.main-image button:first-child {
+.mainImage button:first-child {
   left: 10px;
 }
 
-.main-image button:last-child {
+.mainImage button:last-child {
   right: 10px;
 }
 
@@ -40,6 +41,9 @@
   /* justify-content: center; */
   flex-direction: column;
   gap: 20px;
+  max-height: 700px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .thumbnails img {

@@ -14,6 +14,90 @@ class OrderResolver
         $this->pdo = $pdo;
     }
 
+
+    public function getOrders()
+    {
+        $query = "
+            SELECT 
+                o.id AS order_id, 
+                o.order_date, 
+                oi.id AS item_id, 
+                oi.product_id, 
+                oi.name AS item_name, 
+                oi.quantity, 
+                p.amount AS price_amount, 
+                p.currency_label, 
+                p.currency_symbol, 
+                oia.type AS attribute_type, 
+                oia.name AS attribute_name, 
+                oia.value AS attribute_value
+            FROM 
+                orders o
+            LEFT JOIN 
+                order_items oi ON o.id = oi.order_id
+            LEFT JOIN 
+                prices p ON oi.product_id = p.product_id
+            LEFT JOIN 
+                order_item_attributes oia ON oi.id = oia.item_id
+        ";
+    
+        $stmt = $this->pdo->query($query);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $orders = [];
+        $orderItemsByOrderId = [];
+    
+        foreach ($results as $row) {
+            $orderId = $row['order_id'];
+            $itemId = $row['item_id'];
+    
+            // Initialize order if it doesn't exist in the array
+            if (!isset($orders[$orderId])) {
+                $orders[$orderId] = [
+                    'id' => $orderId,
+                    'order_date' => $row['order_date'],
+                    'items' => [],
+                    'total' => 0,
+                ];
+            }
+    
+            // Initialize item if it doesn't exist in the array
+            if ($itemId && !isset($orderItemsByOrderId[$orderId][$itemId])) {
+                $orderItemsByOrderId[$orderId][$itemId] = [
+                    'product_id' => $row['product_id'],
+                    'name' => $row['item_name'],
+                    'quantity' => $row['quantity'],
+                    'price' => [
+                        'amount' => $row['price_amount'],
+                        'currency_label' => $row['currency_label'],
+                        'currency_symbol' => $row['currency_symbol'],
+                    ],
+                    'attributes' => [],
+                ];
+    
+                // Add item to the order and update the total
+                $orders[$orderId]['items'][] = &$orderItemsByOrderId[$orderId][$itemId];
+                $orders[$orderId]['total'] += $row['price_amount'] * $row['quantity'];
+            }
+    
+            // Add attribute if it exists
+            if ($row['attribute_type']) {
+                $orderItemsByOrderId[$orderId][$itemId]['attributes'][] = [
+                    'type' => $row['attribute_type'],
+                    'name' => $row['attribute_name'],
+                    'value' => $row['attribute_value'],
+                ];
+            }
+        }
+    
+        // Reindex orders array
+        $orders = array_values($orders);
+    
+        return $orders;
+    }
+    
+
+
     public function createOrder($items)
     {
 
@@ -42,11 +126,12 @@ class OrderResolver
 
                 if (!empty($item['attributes'])) {
                     foreach ($item['attributes'] as $attribute) {
-                        $stmt = $this->pdo->prepare('INSERT INTO order_item_attributes (item_id, attribute_name, attribute_value) VALUES (:item_id, :attribute_name, :attribute_value)');
+                        $stmt = $this->pdo->prepare('INSERT INTO order_item_attributes (item_id, type, name, value) VALUES (:item_id, :type, :name, :value)');
                         $stmt->execute([
                             'item_id' => $itemId,
-                            'attribute_name' => $attribute['name'],
-                            'attribute_value' => $attribute['value'],
+                            'type' => $attribute['type'],
+                            'name' => $attribute['name'],
+                            'value' => $attribute['value'],
                         ]);
                     }
                 }
@@ -56,7 +141,6 @@ class OrderResolver
 
             return [
                 'order_id' => $orderId,
-                'items' => $items,
                 'order_date' => date('Y-m-d H:i:s'),
             ];
         } catch (Exception $e) {
