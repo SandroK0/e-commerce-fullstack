@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# If the request is not for an existing file or directory,
+# redirect to public/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [L,QSA]
+
+# If the request is already for public/index.php, don't rewrite
+RewriteRule ^public/index\.php$ - [L]
+
+# Redirect all other requests to public/
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
