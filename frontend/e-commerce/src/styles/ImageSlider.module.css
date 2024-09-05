@@ -1,19 +1,26 @@
 .imageSlider {
   display: flex;
   gap: 50px;
-  width: 800px;
-  height: 700px;
+  width: 800px; /* Fixed width */
+  height: 700px; /* Fixed height */
 }
 
 .mainImage {
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px; /* Match the container width */
+  height: 700px; /* Match the container height */
+  overflow: hidden; /* Hide overflow */
 }
 
 .mainImage img {
-  max-height: 700px;
-  max-width: 800px;
+  max-height: 100%; /* Ensure the image scales to fit the container */
+  max-width: 100%;
+  object-fit: cover; /* Cover the container while maintaining the aspect ratio */
   width: auto;
+  height: auto;
   display: block;
 }
 
@@ -38,12 +45,12 @@
 
 .thumbnails {
   display: flex;
-  /* justify-content: center; */
   flex-direction: column;
   gap: 20px;
   max-height: 700px;
   overflow: hidden;
   overflow-y: scroll;
+  padding-right: 30px;
 }
 
 .thumbnails img {

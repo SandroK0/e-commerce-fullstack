@@ -31,7 +31,9 @@ class CartItem extends Component {
     const { item } = this.props;
 
     return (
-      <div className={styles.itemCont}>
+      <div
+        className={styles.itemCont}
+      >
         <div className={styles.item}>
           <div className={styles.itemInfo}>
             <div className={styles.itemName}>{item.name}</div>
@@ -61,7 +63,9 @@ class CartItem extends Component {
             <img src={minusBtn}></img>
           </button>
         </div>
-        <img src={item.img} width={100} className={styles.itemImg}></img>
+        <div className={styles.imgCont}>
+          <img src={item.img} width={100} className={styles.itemImg}></img>
+        </div>
       </div>
     );
   }

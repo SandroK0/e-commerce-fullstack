@@ -77,7 +77,7 @@ class Product extends Component {
       const item = data.product;
       const isAttributesSelected =
         this.state.selectedAttributes.length === item.attributes.length;
-
+      console.log(item.inStock);
       return (
         <div>
           <div className={styles.productPage}>
@@ -98,7 +98,12 @@ class Product extends Component {
               </div>
               <button
                 className={styles.addToCartBtn}
-                style={{ ...(!isAttributesSelected && grayedOutBtn) }}
+                style={{
+                  ...(!isAttributesSelected || !item.inStock
+                    ? grayedOutBtn
+                    : {}),
+                }}
+                data-testid="add-to-cart"
                 onClick={() => {
                   if (isAttributesSelected) {
                     this.addToCart(item);
@@ -107,7 +112,9 @@ class Product extends Component {
               >
                 ADD TO CART
               </button>
-              <div>{parse(item.description)}</div>
+              <div data-testid="product-description">
+                {parse(item.description)}
+              </div>
             </div>
           </div>
         </div>

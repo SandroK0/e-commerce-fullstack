@@ -3,7 +3,7 @@ import { withCart } from "../utils/withCart";
 import CartItem from "./CartItem";
 import { GraphQL } from "../graphql/graphqlClient";
 import { CREATE_ORDER } from "../graphql/queries";
-import styles from "../styles/Cart.module.css"
+import styles from "../styles/Cart.module.css";
 
 class Cart extends Component {
   state = {};
@@ -17,7 +17,7 @@ class Cart extends Component {
         attributes: item.selectedAttributes,
       };
     });
-    console.log(orderItems)
+    console.log(orderItems);
     try {
       const data = await GraphQL(CREATE_ORDER, { items: orderItems });
       this.setState({
@@ -36,6 +36,8 @@ class Cart extends Component {
     const { items, emptyCart, totalItems, toggleCart, isEmpty, cartTotal } =
       this.props;
 
+    const grayedOutBtn = { background: "Gray", cursor: "default" };
+
     return (
       <div className={styles.blur}>
         <div className={styles.cartCont}>
@@ -46,9 +48,10 @@ class Cart extends Component {
             </span>
           </div>
           <div className={styles.items}>
-            {items.map((item) => (
-              <CartItem item={item} key={item.id}></CartItem>
-            ))}
+            {!isEmpty &&
+              items.map((item) => (
+                <CartItem item={item} key={item.id}></CartItem>
+              ))}
           </div>
           <div className={styles.total}>
             <div>Total:</div>
@@ -56,6 +59,7 @@ class Cart extends Component {
           </div>
           <button
             className={styles.btn}
+            style={{ ...(isEmpty && grayedOutBtn) }}
             onClick={() => {
               if (!isEmpty) {
                 this.placeOrder(items);

@@ -69,6 +69,7 @@ class ProductCard extends Component {
         onMouseLeave={this.handleMouseLeave}
         onClick={navigateToProduct}
         style={cardStyle}
+        data-testid='product-${product name in kebab case}'
       >
         <div className={styles.imgCont}>
           <img className={styles.productImg} src={product.images[0]} alt="Product" />

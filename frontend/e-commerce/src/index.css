@@ -28,3 +28,11 @@ body {
   place-items: center;
   min-height: 100vh;
 }
+
+
+
+@media (max-width: 500px) {
+  .Layout {
+    padding: 0 20px;
+  }
+}

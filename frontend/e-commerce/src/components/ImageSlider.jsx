@@ -41,7 +41,7 @@ class ImageSlider extends Component {
   render() {
     const { images, currentIndex } = this.state;
     return (
-      <div className={styles.imageSlider}>
+      <div className={styles.imageSlider} data-testid="product-gallery">
         <div className={styles.thumbnails}>
           {images.map((image, index) => (
             <img
