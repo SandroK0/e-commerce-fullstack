@@ -1,12 +1,14 @@
 services:
   frontend:
-    image: sandrok0/e-commerce:frontend-latest
+    build:
+      context: ./frontend
     ports:
       - "3000:80"
     depends_on:
       - backend
   backend:
-    image: sandrok0/e-commerce:backend-latest
+    build:
+      context: ./backend
     ports:
       - "8000:80"
     depends_on:
