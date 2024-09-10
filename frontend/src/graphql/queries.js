@@ -30,15 +30,6 @@ export const GET_PRODUCTS_QUERY = `
   }
 `;
 
-export const GET_CATEGORIES_QUERY = `
-  query {
-    categories {
-        id
-        name
-    }
-  }
-`;
-
 export const GET_PRODUCT_BY_ID = `
   query Product($id : String!) {
     product(id: $id) {

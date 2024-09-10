@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import cartBtn from "../assets/circle-icon.svg";
 import { withRouter } from "../utils/withRouter";
 import { withCart } from "../utils/withCart";
-import styles from "../styles/ProductCard.module.css"
+import { withCartOverlay } from "../utils/withCartOverlay";
+import styles from "../styles/ProductCard.module.css";
 
 class ProductCard extends Component {
   constructor(props) {
@@ -48,11 +49,11 @@ class ProductCard extends Component {
     };
 
     addItem(ITEM, 1);
+    this.props.setShowCartOverlay(true);
   };
 
   render() {
     const { isHovered, product } = this.state;
-
     const cardStyle = {
       boxShadow: isHovered ? "0px 4px 35px 0px #A8ACB030" : "none",
       transition: "box-shadow 0.3s ease",
@@ -69,10 +70,16 @@ class ProductCard extends Component {
         onMouseLeave={this.handleMouseLeave}
         onClick={navigateToProduct}
         style={cardStyle}
-        data-testid='product-${product name in kebab case}'
+        data-testid={`product-${product.name
+          .toLowerCase()
+          .replace(/\s+/g, "-")}`}
       >
         <div className={styles.imgCont}>
-          <img className={styles.productImg} src={product.images[0]} alt="Product" />
+          <img
+            className={styles.productImg}
+            src={product.images[0]}
+            alt="Product"
+          />
           {!product.inStock && (
             <div className={styles.outOfStockOverlay}>OUT OF STOCK</div>
           )}
@@ -98,4 +105,4 @@ class ProductCard extends Component {
   }
 }
 
-export default withRouter(withCart(ProductCard));
+export default withRouter(withCart(withCartOverlay(ProductCard)));

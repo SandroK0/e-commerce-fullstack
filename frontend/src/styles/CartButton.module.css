@@ -19,7 +19,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     font: Roboto;
     font-weight: 700;
+}
+
+
+
+@media (max-width: 500px) {
+    .cartButton img {
+        width: 15px;
+    }
+
+    .totalItems {
+        width: 12px;
+        height: 12px;
+        border-radius: 6px;
+        font-size: 10px;
+    }
 }

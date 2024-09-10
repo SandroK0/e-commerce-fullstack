@@ -6,34 +6,22 @@ import plusBtn from "../assets/plus-square.svg";
 import minusBtn from "../assets/minus-square.svg";
 
 class CartItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      item: props.item,
-      updateItem: props.updateItem,
-      updateItemQuantity: props.updateItemQuantity,
-    };
-  }
-
   editAttribute = (attribute) => {
-    const updatedAttributes = this.state.item.selectedAttributes.filter(
+    const updatedAttributes = this.props.item.selectedAttributes.filter(
       (att) => att.name !== attribute.name
     );
 
-    this.state.updateItem(this.state.item.id, {
-      ...this.state.item,
+    this.props.updateItem(this.props.item.id, {
+      ...this.props.item,
       selectedAttributes: [...updatedAttributes, attribute],
     });
   };
 
   render() {
-    const { updateItemQuantity } = this.state;
-    const { item } = this.props;
+    const { item, updateItemQuantity } = this.props;
 
     return (
-      <div
-        className={styles.itemCont}
-      >
+      <div className={styles.itemCont}>
         <div className={styles.item}>
           <div className={styles.itemInfo}>
             <div className={styles.itemName}>{item.name}</div>
@@ -48,14 +36,16 @@ class CartItem extends Component {
         </div>
         <div className={styles.itemQuantity}>
           <button
+            data-testid="cart-item-amount-increase"
             onClick={() =>
               updateItemQuantity(item.id, (item.quantity ?? 0) + 1)
             }
           >
             <img src={plusBtn}></img>
           </button>
-          <div>{item.quantity}</div>
+          <div data-testid="cart-item-amount">{item.quantity}</div>
           <button
+            data-testid="cart-item-amount-decrease"
             onClick={() =>
               updateItemQuantity(item.id, (item.quantity ?? 0) - 1)
             }

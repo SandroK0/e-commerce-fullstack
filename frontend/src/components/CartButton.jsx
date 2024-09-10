@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import cartIcon from "../assets/empty-cart.svg";
-import { withCart } from "../utils/withCart";
+import { withCart } from "../utils/withCart.jsx";
+import { withCartOverlay } from "../utils/withCartOverlay.jsx";
 import styles from "../styles/CartButton.module.css";
 
 class CartButton extends Component {
   render() {
-    const { handleClick, isEmpty, totalItems } = this.props;
+    const { isEmpty, totalItems, toggleCartOverlay } = this.props;
+
     return (
       <button
         className={styles.cartButton}
-        onClick={handleClick}
+        onClick={() => toggleCartOverlay()}
         data-testid="cart-btn"
       >
         {!isEmpty && <div className={styles.totalItems}>{totalItems}</div>}
@@ -19,4 +21,4 @@ class CartButton extends Component {
   }
 }
 
-export default withCart(CartButton);
+export default withCart(withCartOverlay(CartButton));

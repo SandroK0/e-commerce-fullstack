@@ -12,12 +12,14 @@ class SchemaBuilder
     private $productResolver;
     private $categoryResolver;
     private $orderResolver;
+    private $attributeResolver;
 
-    public function __construct($productResolver, $categoryResolver, $orderResolver)
+    public function __construct($productResolver, $categoryResolver, $orderResolver, $attributeResolver)
     {
         $this->productResolver = $productResolver;
         $this->categoryResolver = $categoryResolver;
         $this->orderResolver = $orderResolver;
+        $this->attributeResolver = $attributeResolver;
     }
 
     public function buildSchema()
@@ -68,13 +70,18 @@ class SchemaBuilder
                 "category" => ["type" => $categoryType],
                 "brand" => ["type" => Type::string()],
                 "price" => ["type" => $priceType],
-                "attributes" => ["type" => Type::listOf($attributeType)],
+                "attributes" => [
+                    "type" => Type::listOf($attributeType),
+                    "resolve" => function ($product, $root, $args) {
+                        return $this->attributeResolver->getProductAttributes($product['id']);
+                    },
+                ],
                 "images" => ["type" => Type::listOf(Type::string())],
             ],
         ]);
 
-        $attributeInputType = new InputObjectType([
-            "name" => "AttributeInput",
+        $orderItemAttributeInputType = new InputObjectType([
+            "name" => "OrderItemAttributeInput",
             "fields" => [
                 "type" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
@@ -83,8 +90,8 @@ class SchemaBuilder
         ]);
 
 
-        $attributeOutputType = new ObjectType([
-            "name" => "AttributOutput",
+        $orderItemAttributeOutputType = new ObjectType([
+            "name" => "OrderItemAttributOutput",
             "fields" => [
                 "type" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
@@ -98,7 +105,7 @@ class SchemaBuilder
                 "product_id" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
                 "quantity" => ["type" => Type::nonNull(Type::int())],
-                "attributes" => ["type" => Type::listOf($attributeInputType)],
+                "attributes" => ["type" => Type::listOf($orderItemAttributeInputType)],
             ],
         ]);
 
@@ -108,7 +115,7 @@ class SchemaBuilder
                 "product_id" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
                 "quantity" => ["type" => Type::nonNull(Type::int())],
-                "attributes" => ["type" => Type::listOf($attributeOutputType)],
+                "attributes" => ["type" => Type::listOf($orderItemAttributeOutputType)],
                 "price" => ["type" => $priceType],
             ],
         ]);
@@ -156,7 +163,14 @@ class SchemaBuilder
                     "resolve" => function ($root, $args) {
                         return $this->orderResolver->getOrders();
                     }
-                ]
+                ],
+                "order" => [
+                    "type" => $orderType,
+                    "args" => ["order_id" => ["type" => Type::nonNull(Type::int())]],
+                    "resolve" => function ($root, $args) {
+                        return $this->orderResolver->getOrderById($args["order_id"]);
+                    }
+                ],
             ],
         ]);
 

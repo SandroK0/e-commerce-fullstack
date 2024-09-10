@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { useCart } from "react-use-cart";
 
 export const withCart = (WrappedComponent) => {
@@ -14,7 +14,6 @@ export const withCart = (WrappedComponent) => {
       cartTotal,
       updateItem,
     } = useCart();
-
     return (
       <WrappedComponent
         {...props}

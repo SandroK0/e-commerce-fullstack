@@ -21,3 +21,22 @@
   font-size: 16px;
   height: 56px;
 }
+
+@media (max-width: 500px) {
+  .logoCont img {
+    width: 25px;
+  }
+
+  .categories {
+    gap: 12px;
+    height: 28px;
+  }
+
+  .header {
+    padding-top: 12px;
+    height: 50px;
+  }
+
+}
+
+

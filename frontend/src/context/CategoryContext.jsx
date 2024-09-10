@@ -3,9 +3,13 @@ import React, { createContext, Component } from "react";
 const CategoryContext = createContext();
 
 export class CategoryProvider extends Component {
-  state = {
-    currentCategory: "all",
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentCategory: "all",
+    };
+  }
 
   setCategory = (newCategory) => {
     this.setState({ currentCategory: newCategory });
@@ -21,14 +25,6 @@ export class CategoryProvider extends Component {
       >
         {this.props.children}
       </CategoryContext.Provider>
-    );
-  }
-}
-
-export class CategoryConsumer extends Component {
-  render() {
-    return (
-      <CategoryContext.Consumer>{this.props.children}</CategoryContext.Consumer>
     );
   }
 }

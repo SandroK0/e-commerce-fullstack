@@ -1,21 +1,20 @@
-import { Component } from "react";
+import { Component, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
-import { CategoryConsumer } from "../context/CategoryContext.jsx";
 import { GET_PRODUCTS_QUERY } from "../graphql/queries.js";
 import { GraphQL } from "../graphql/graphqlClient.js";
 import { withCart } from "../utils/withCart.jsx";
 import styles from "../styles/Home.module.css";
+import { withRouter } from "../utils/withRouter.jsx";
+import { withCategory } from "../utils/withCategory.jsx";
 
 class Home extends Component {
   state = {};
 
   componentDidMount() {
     this.fetchData();
+    const currentCategory = this.props.loaderData.category;
+    this.props.setCategory(currentCategory);
   }
-
-  foo = () => {
-    console.log("FOO");
-  };
 
   fetchData = async () => {
     try {
@@ -34,33 +33,30 @@ class Home extends Component {
 
   render() {
     const { data, loading, error } = this.state;
+    const { currentCategory } = this.props;
 
     return (
-      <CategoryConsumer>
-        {({ currentCategory }) => (
-          <div className={styles.home}>
-            <div className={styles.categoryHeading}>
-              {currentCategory.toUpperCase()}
-            </div>
-            <div className={styles.itemGrid}>
-              {loading && <p>Loading...</p>}
-              {error && <p>{error}</p>}
-              {data &&
-                data.products
-                  .filter(
-                    (product) =>
-                      currentCategory === "all" ||
-                      product.category.name === currentCategory
-                  )
-                  .map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-            </div>
-          </div>
-        )}
-      </CategoryConsumer>
+      <div className={styles.home}>
+        <div className={styles.categoryHeading}>
+          {currentCategory.toUpperCase()}
+        </div>
+        <div className={styles.itemGrid}>
+          {loading && <p>Loading...</p>}
+          {error && <p>{error}</p>}
+          {data &&
+            data.products
+              .filter(
+                (product) =>
+                  currentCategory === "all" ||
+                  product.category.name === currentCategory
+              )
+              .map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+        </div>
+      </div>
     );
   }
 }
 
-export default withCart(Home);
+export default withCart(withRouter(withCategory(Home)));

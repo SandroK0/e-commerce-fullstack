@@ -34,11 +34,35 @@ export default class SwatchAttribute extends Component {
     const styles = inCart ? StylesInCart : Styles;
 
     return (
-      <div className={styles.attCont}>
+      <div
+        className={styles.attCont}
+        data-testid={
+          inCart
+            ? `cart-item-attribute-${attribute.name.toLowerCase()}`
+            : `product-attribute-${attribute.name.toLowerCase()}`
+        }
+      >
         <h2>{attribute.name.toUpperCase()}:</h2>
         <div className={styles.attributes}>
           {attribute.items.map((item) => (
             <div
+              data-testid={
+                inCart
+                  ? item.value === selectedAttribute.value
+                    ? `cart-item-attribute-${attribute.name.toLowerCase()}-${
+                        item.value
+                      }-selected`
+                    : `cart-item-attribute-${attribute.name.toLowerCase()}-${
+                        item.value
+                      }`
+                  : item.value === selectedAttribute.value
+                  ? `product-attribute-${attribute.name.toLowerCase()}-${
+                      item.value
+                    }-selected`
+                  : `product-attribute-${attribute.name.toLowerCase()}-${
+                      item.value
+                    }`
+              }
               key={item.id}
               className={styles.attributeItem}
               style={{

@@ -17,7 +17,6 @@ class Cart extends Component {
         attributes: item.selectedAttributes,
       };
     });
-    console.log(orderItems);
     try {
       const data = await GraphQL(CREATE_ORDER, { items: orderItems });
       this.setState({
@@ -33,14 +32,13 @@ class Cart extends Component {
   };
 
   render() {
-    const { items, emptyCart, totalItems, toggleCart, isEmpty, cartTotal } =
-      this.props;
+    const { items, emptyCart, totalItems, isEmpty, cartTotal } = this.props;
 
     const grayedOutBtn = { background: "Gray", cursor: "default" };
 
     return (
       <div className={styles.blur}>
-        <div className={styles.cartCont}>
+        <div className={styles.cartCont} data-testid="cart-overlay">
           <div className={styles.myBag}>
             My bag,{" "}
             <span>
@@ -55,18 +53,16 @@ class Cart extends Component {
           </div>
           <div className={styles.total}>
             <div>Total:</div>
-            <div>${cartTotal.toFixed(2)}</div>
+            <div data-testid="cart-total">${cartTotal.toFixed(2)} </div>
           </div>
           <button
             className={styles.btn}
             style={{ ...(isEmpty && grayedOutBtn) }}
             onClick={() => {
-              if (!isEmpty) {
-                this.placeOrder(items);
-                toggleCart();
-                emptyCart();
-              }
+              this.placeOrder(items);
+              emptyCart();
             }}
+            disabled={isEmpty}
           >
             PLACE ORDER
           </button>

@@ -33,4 +33,13 @@
   }
   
 
-  
+@media (max-width:500px) {
+  .home {
+    margin-top: 40px;
+  }
+
+  .categoryHeading {
+    font-size: 21px;
+    margin-bottom: 40px;
+  }
+}  

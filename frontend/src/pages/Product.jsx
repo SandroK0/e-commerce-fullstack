@@ -4,6 +4,7 @@ import { GET_PRODUCT_BY_ID } from "../graphql/queries";
 import { GraphQL } from "../graphql/graphqlClient";
 import { withRouter } from "../utils/withRouter.jsx";
 import { withCart } from "../utils/withCart.jsx";
+import { withCartOverlay } from "../utils/withCartOverlay.jsx";
 import parse from "html-react-parser";
 import DisplayAttributes from "../components/DisplayAttributes.jsx";
 import styles from "../styles/Product.module.css";
@@ -56,6 +57,7 @@ class Product extends Component {
     };
 
     addItem(ITEM, 1);
+    this.props.setShowCartOverlay(true);
   };
 
   setAttribute = (attribute) => {
@@ -77,7 +79,6 @@ class Product extends Component {
       const item = data.product;
       const isAttributesSelected =
         this.state.selectedAttributes.length === item.attributes.length;
-      console.log(item.inStock);
       return (
         <div>
           <div className={styles.productPage}>
@@ -105,10 +106,9 @@ class Product extends Component {
                 }}
                 data-testid="add-to-cart"
                 onClick={() => {
-                  if (isAttributesSelected) {
-                    this.addToCart(item);
-                  }
+                  this.addToCart(item);
                 }}
+                disabled={!isAttributesSelected || !item.inStock}
               >
                 ADD TO CART
               </button>
@@ -123,4 +123,4 @@ class Product extends Component {
   }
 }
 
-export default withRouter(withCart(Product));
+export default withRouter(withCart(withCartOverlay(Product)));

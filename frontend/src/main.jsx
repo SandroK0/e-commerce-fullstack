@@ -6,20 +6,50 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
 } from "react-router-dom";
-import "./index.css";
 import Home from "./pages/Home.jsx";
 import Product from "./pages/Product.jsx";
+import { CategoryProvider } from "./context/CategoryContext.jsx";
+import { CartProvider } from "react-use-cart";
+import { CartOverlayProvider } from "./context/CartOverlayContext.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout></Layout>}>
-      <Route index element={<Home />}></Route>
-      <Route path="/product" element={<Product />}></Route>
+    <Route path="/" element={<Layout />}>
+      <Route path="/" element={<Navigate to="/all" replace />} />
+      <Route
+        path="/all"
+        element={<Home />}
+        loader={() => {
+          return { category: "all" };
+        }}
+      />
+      <Route
+        path="/tech"
+        loader={() => {
+          return { category: "tech" };
+        }}
+        element={<Home />}
+      />
+      <Route
+        path="/clothes"
+        loader={() => {
+          return { category: "clothes" };
+        }}
+        element={<Home />}
+      />
+      <Route path="/product" element={<Product />} />
     </Route>
   )
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <CartProvider>
+    <CategoryProvider>
+      <CartOverlayProvider>
+        <RouterProvider router={router} />
+      </CartOverlayProvider>
+    </CategoryProvider>
+  </CartProvider>
 );
