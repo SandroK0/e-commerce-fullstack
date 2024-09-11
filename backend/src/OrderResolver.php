@@ -50,7 +50,7 @@ class OrderResolver
         foreach ($results as $row) {
             $orderId = $row['order_id'];
             $itemId = $row['item_id'];
-
+            
             // Initialize order if it doesn't exist in the array
             if (!isset($orders[$orderId])) {
                 $orders[$orderId] = [
@@ -60,7 +60,7 @@ class OrderResolver
                     'total' => 0,
                 ];
             }
-
+      
             // Initialize item if it doesn't exist in the array
             if ($itemId && !isset($orderItemsByOrderId[$orderId][$itemId])) {
                 $orderItemsByOrderId[$orderId][$itemId] = [
@@ -78,9 +78,9 @@ class OrderResolver
                 // Add item to the order and update the total
                 $orders[$orderId]['items'][] = &$orderItemsByOrderId[$orderId][$itemId];
                 $orders[$orderId]['total'] += $row['price_amount'] * $row['quantity'];
-            }
-
-            // Add attribute if it exists
+            };
+            $orders[$orderId]["total"] = sprintf("%.2f", $orders[$orderId]["total"]);
+            // Add attribute if it existsd
             if ($row['attribute_type']) {
                 $orderItemsByOrderId[$orderId][$itemId]['attributes'][] = [
                     'type' => $row['attribute_type'],
@@ -90,12 +90,14 @@ class OrderResolver
             }
         }
 
+    
+
         // Reindex orders array
         $orders = array_values($orders);
 
         return $orders;
     }
-
+  
     public function getOrderById($orderId)
     {
         $query = "
@@ -168,6 +170,7 @@ class OrderResolver
                 $order['total'] += $row['price_amount'] * $row['quantity'];
             }
 
+            $order["total"] = sprintf("%.2f", $order["total"]);
             // Add attribute if it exists
             if ($row['attribute_type']) {
                 $orderItemsByOrderId[$itemId]['attributes'][] = [
