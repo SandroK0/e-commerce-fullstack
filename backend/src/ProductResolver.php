@@ -15,17 +15,37 @@ class ProductResolver
 
     public function getAllProducts()
     {
-        $stmt = $this->pdo->query("SELECT * FROM products");
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $query = "
+        SELECT 
+            p.id AS id,
+            p.name AS name,
+            p.description AS description,
+            p.inStock AS inStock,
+            p.brand AS brand,
+            c.id AS category_id,
+            c.name AS category_name,
+            prc.amount AS price_amount, 
+            prc.currency_label, 
+            prc.currency_symbol
+        FROM
+            products p
+        LEFT JOIN 
+            categories c ON p.category_id = c.id
+        LEFT JOIN 
+            prices prc ON p.id = prc.product_id
+    ";
 
-        $priceStmt = $this->pdo->query("SELECT * FROM prices");
-        $prices = $priceStmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->query($query);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($results)) {
+            return null;
+        }
 
         $imageStmt = $this->pdo->query("SELECT * FROM product_images");
         $images = $imageStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $categoryStmt = $this->pdo->query("SELECT * FROM categories");
-        $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = [];
 
         $imagesByProductId = [];
         foreach ($images as $image) {
@@ -39,55 +59,114 @@ class ProductResolver
             $imagesByProductId[$productId][] = $imageUrl;
         }
 
-        $pricesByProductId = [];
-        foreach ($prices as $price) {
-            $pricesByProductId[$price["product_id"]] = $price;
+
+        foreach ($results as $row) {
+
+            $product = [
+                'id' => $row["id"],
+                'name' => $row["name"],
+                'description' => $row["description"],
+                "inStock" => $row["inStock"],
+                "category" => [
+                    "id" => $row["category_id"],
+                    "name" => $row["category_name"],
+                ],
+                "brand" => $row["brand"],
+                "images" => $imagesByProductId[$row["id"]] ?? [],
+                "price" => [
+                    "amount" => $row["price_amount"],
+                    "currency_label" => $row["currency_label"],
+                    "currency_symbol" => $row["currency_symbol"],
+                ]
+
+            ];
+            $products[] = $product;
         }
 
-        $categoriesById = [];
-        foreach ($categories as $category) {
-            $categoriesById[$category["id"]] = $category;
-        }
 
-        foreach ($products as &$product) {
-            $product_id = $product["id"];
-
-            $product["price"] = $pricesByProductId[$product_id] ?? null;
-            $product["images"] = $imagesByProductId[$product_id] ?? null;
-            $product["category"] =
-                $categoriesById[$product["category_id"]] ?? null;
-        }
-
-        return $products;
+        $output = $products;
+        return $output;
     }
 
     public function getProductById($id)
     {
         $id = (string) $id;
 
-        $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :id");
-        $stmt->execute([":id" => $id]);
+        $query = "
+            SELECT 
+                p.id AS id,
+                p.name AS name,
+                p.description AS description,
+                p.inStock AS inStock,
+                c.id AS category_id,
+                c.name AS category_name,
+                p.brand AS brand,
+                prc.amount AS price_amount, 
+                prc.currency_label, 
+                prc.currency_symbol
+            FROM
+                products p
+            LEFT JOIN 
+                categories c ON p.category_id = c.id
+            LEFT JOIN 
+                prices prc ON p.id = prc.product_id
+            WHERE
+                p.id = :productId
+        ";
 
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($product) {
-            $priceStmt = $this->pdo->prepare(
-                "SELECT * FROM prices WHERE product_id = :id"
-            );
-            $priceStmt->execute([":id" => $id]);
-            $product["price"] = $priceStmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':productId', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $imageStmt = $this->pdo->prepare(
-                "SELECT * FROM product_images WHERE product_id = :id"
-            );
-            $imageStmt->execute([":id" => $id]);
-            $product["images"] = $imageStmt->fetchAll(PDO::FETCH_COLUMN, 2);
-
-            $categoryStmt = $this->pdo->prepare(
-                "SELECT * FROM categories WHERE id = (SELECT category_id FROM products WHERE id = :id)"
-            );
-            $categoryStmt->execute([":id" => $id]);
-            $product["category"] = $categoryStmt->fetch(PDO::FETCH_ASSOC);
+        if (empty($results)) {
+            return null;
         }
-        return $product;
+
+
+        $imageStmt = $this->pdo->prepare("SELECT * FROM product_images where product_id = :productId");
+        $imageStmt->bindParam("productId", $id, PDO::PARAM_STR);
+        $imageStmt->execute();
+        $images = $imageStmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        $imagesByProductId = [];
+        foreach ($images as $image) {
+            $productId = $image["product_id"];
+            $imageUrl = $image["image_url"];
+
+            if (!isset($imagesByProductId[$productId])) {
+                $imagesByProductId[$productId] = [];
+            }
+
+            $imagesByProductId[$productId][] = $imageUrl;
+        }
+
+
+        foreach ($results as $row) {
+
+            $product = [
+                'id' => $row["id"],
+                'name' => $row["name"],
+                'description' => $row["description"],
+                "inStock" => $row["inStock"],
+                "category" => [
+                    "id" => $row["category_id"],
+                    "name" => $row["category_name"],
+                ],
+                "brand" => $row["brand"],
+                "images" => $imagesByProductId[$row["id"]] ?? [],
+                "price" => [
+                    "amount" => $row["price_amount"],
+                    "currency_label" => $row["currency_label"],
+                    "currency_symbol" => $row["currency_symbol"],
+                ]
+
+            ];
+        }
+
+
+        $output = $product;
+        return $output;
     }
 }
