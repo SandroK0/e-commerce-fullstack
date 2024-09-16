@@ -2,6 +2,7 @@
     all: unset;
     position: relative;
     cursor: pointer;
+    z-index: 11;
 }
 
 
@@ -14,7 +15,7 @@
     border-radius: 10px;
     left: 10px;
     bottom: 15px;
-    z-index: 1;
+    z-index: 2;
 
     display: flex;
     justify-content: center;
@@ -28,13 +29,13 @@
 
 @media (max-width: 500px) {
     .cartButton img {
-        width: 15px;
+        width: 20px;
     }
 
     .totalItems {
-        width: 12px;
-        height: 12px;
-        border-radius: 6px;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
         font-size: 10px;
     }
 }

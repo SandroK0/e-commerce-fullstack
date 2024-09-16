@@ -40,6 +40,8 @@ class ImageSlider extends Component {
 
   render() {
     const { images, currentIndex } = this.state;
+    const activeThumbnailStyle = { opacity: 1 };
+
     return (
       <div className={styles.imageSlider} data-testid="product-gallery">
         <div className={styles.thumbnails}>
@@ -49,7 +51,9 @@ class ImageSlider extends Component {
               src={image}
               alt={`Thumbnail ${index}`}
               onClick={() => this.switchToImage(index)}
-              className={index === currentIndex ? "active" : ""}
+              style={{
+                ...(index === currentIndex ? activeThumbnailStyle : {}),
+              }}
             />
           ))}
         </div>

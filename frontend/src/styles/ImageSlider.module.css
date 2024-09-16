@@ -10,8 +10,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 800px; /* Match the container width */
-  height: 700px; /* Match the container height */
+  width: 100%; /* Match the container width */
+  height: 100%; /* Match the container height */
   overflow: hidden; /* Hide overflow */
 }
 
@@ -62,7 +62,42 @@
   transition: opacity 0.3s ease;
 }
 
-.thumbnails img:hover,
-.thumbnails img.active {
+.thumbnails img:hover {
   opacity: 1;
+}
+
+
+
+@media (max-width: 1050px) {
+  .imageSlider {
+    flex-direction: column; /* Stack the elements vertically */
+    gap: 20px;
+    width: 330px; /* Fixed width for smaller screens */
+    height: auto; /* Let height adjust */
+  }
+
+
+  .mainImage img {
+    max-height: 100%; /* Ensure the image scales to fit the container */
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+  .mainImage button {
+    padding: 8px; /* Reduce button padding */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .thumbnails {
+    flex-direction: row; /* Change to row for horizontal scrolling */
+    max-height: 150px; /* Fixed height for the thumbnails container */
+    overflow-x: scroll; /* Horizontal scroll for thumbnails */
+    gap: 12px;
+    padding-right: 0;
+  }
+
+  .thumbnails img {
+    width: 80px; /* Fixed width */
+    height: 80px; /* Fixed height */
+  }
 }

@@ -55,7 +55,7 @@ class ProductCard extends Component {
   render() {
     const { isHovered, product } = this.state;
     const cardStyle = {
-      boxShadow: isHovered ? "0px 4px 35px 0px #A8ACB030" : "none",
+      boxShadow: isHovered ? "0px 4px 35px 0px #A8ACB060" : "none",
       transition: "box-shadow 0.3s ease",
     };
 
@@ -95,8 +95,8 @@ class ProductCard extends Component {
           ) : undefined}
         </div>
         <div>
-          <div>{product.name}</div>
-          <div>
+          <div className={styles.name}>{product.name}</div>
+          <div className={styles.price}>
             {product.price.currency_symbol} {product.price.amount}
           </div>
         </div>

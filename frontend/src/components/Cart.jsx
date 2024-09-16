@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withCart } from "../utils/withCart";
+import { withCartOverlay } from "../utils/withCartOverlay";
 import CartItem from "./CartItem";
 import { GraphQL } from "../graphql/graphqlClient";
 import { CREATE_ORDER } from "../graphql/queries";
@@ -32,13 +33,31 @@ class Cart extends Component {
   };
 
   render() {
-    const { items, emptyCart, totalItems, isEmpty, cartTotal } = this.props;
+    const {
+      items,
+      emptyCart,
+      totalItems,
+      isEmpty,
+      cartTotal,
+      setShowCartOverlay,
+    } = this.props;
 
     const grayedOutBtn = { background: "Gray", cursor: "default" };
 
     return (
-      <div className={styles.blur}>
-        <div className={styles.cartCont} data-testid="cart-overlay">
+      <div
+        className={styles.blur}
+        onClick={() => {
+          setShowCartOverlay(false);
+        }}
+      >
+        <div
+          className={styles.cartCont}
+          data-testid="cart-overlay"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <div className={styles.myBag}>
             My bag,{" "}
             <span>
@@ -72,4 +91,4 @@ class Cart extends Component {
   }
 }
 
-export default withCart(Cart);
+export default withCart(withCartOverlay(Cart));

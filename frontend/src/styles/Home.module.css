@@ -12,28 +12,37 @@
   
   .itemGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 40px;
+    place-items: center;
+    grid-template-columns: repeat(4, minmax(300px,1fr));
     max-width: 100%; /* Ensure grid doesn't exceed the container */
     width: 100%;
     box-sizing: border-box;
+    gap:10px;
   }
-  
-  
-  @media (max-width: 1600px) {
-    .itemGrid {
-      grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
-    }
+ 
+    
+@media (max-width: 1300px) {
+  .itemGrid {
+    grid-template-columns: repeat(3, minmax(300px, 1fr)); /* 3 columns on medium screens */
   }
-  
-  @media (max-width: 1270px) {
-    .itemGrid {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
-    }
+}
+
+@media (max-width: 950px) {
+  .itemGrid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on small screens */
   }
-  
+}
+
+
+
+
 
 @media (max-width:500px) {
+  
+  .itemGrid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
+  }
+  
   .home {
     margin-top: 40px;
   }

@@ -1,7 +1,7 @@
 .itemCont {
   display: flex;
+  justify-content:center;
   gap: 2px;
-  width: 100%;
 }
 
 .item {
@@ -18,7 +18,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 30px;
 }
 
 .itemQuantity button {
@@ -51,3 +52,6 @@
   font-family: Raleway;
   font-weight: 400;
 }
+
+
+

@@ -6,6 +6,7 @@ import { withRouter } from "../utils/withRouter.jsx";
 import { withCart } from "../utils/withCart.jsx";
 import styles from "../styles/Header.module.css";
 import { withCategory } from "../utils/withCategory.jsx";
+import { withCartOverlay } from "../utils/withCartOverlay.jsx";
 
 class Header extends Component {
   state = {};
@@ -15,7 +16,7 @@ class Header extends Component {
   };
 
   render() {
-    const { setCategory, currentCategory } = this.props;
+    const { setCategory, currentCategory, setShowCartOverlay } = this.props;
 
     const Categories = ["all", "clothes", "tech"];
     return (
@@ -27,10 +28,17 @@ class Header extends Component {
               category={category}
               currentCategory={currentCategory}
               setCategory={setCategory}
+              setShowCartOverlay={setShowCartOverlay}
             ></CategoryButton>
           ))}
         </div>
-        <div className={styles.logoCont} onClick={this.navigateToHome}>
+        <div
+          className={styles.logoCont}
+          onClick={() => {
+            this.navigateToHome();
+            setShowCartOverlay(false);
+          }}
+        >
           <img src={logo}></img>
         </div>
         <CartButton></CartButton>
@@ -39,4 +47,4 @@ class Header extends Component {
   }
 }
 
-export default withRouter(withCart(withCategory(Header)));
+export default withRouter(withCart(withCategory(withCartOverlay(Header))));

@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
   width: 100%;
   height: 80px;
   padding-top: 24px;
@@ -11,7 +10,6 @@
 .logoCont {
   position: absolute;
   left: 50%;
-
   cursor: pointer;
 }
 
@@ -24,7 +22,7 @@
 
 @media (max-width: 500px) {
   .logoCont img {
-    width: 25px;
+    width: 30px;
   }
 
   .categories {
@@ -36,7 +34,4 @@
     padding-top: 12px;
     height: 50px;
   }
-
 }
-
-

@@ -1,3 +1,16 @@
+
+ 
+@keyframes activeUnderline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+
+
 .categoryText {
   all:unset;
   font-size: 16px;
@@ -11,17 +24,21 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items:center;
 }
+
 
 .activeUnderline {
   background: #5ece7b;
   height: 2px;
   width: 100%;
+  animation-name: activeUnderline;
+  animation-duration: 0.2s;
 }
 
 @media (max-width: 500px) {
   .categoryText {
-    font-size: 12px;
+    font-size: 14px;
   }
 
 }

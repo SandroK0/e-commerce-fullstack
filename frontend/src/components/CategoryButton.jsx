@@ -1,4 +1,4 @@
-import React, { Children, Component } from "react";
+import React, { Component } from "react";
 import { withRouter } from "../utils/withRouter";
 import styles from "../styles/CategoryButton.module.css";
 import { NavLink } from "react-router-dom";
@@ -11,7 +11,6 @@ class CategoryButton extends Component {
   }
 
   render() {
-
     return (
       <div className={styles.categoryButton}>
         <NavLink
@@ -23,6 +22,7 @@ class CategoryButton extends Component {
           onClick={() => {
             this.props.setCategory(this.props.category);
             this.props.navigate(`/${this.props.category}`);
+            this.props.setShowCartOverlay(false);
           }}
           style={this.isActive() ? { color: "#5ECE7B", fontWeight: 600 } : {}}
         >
