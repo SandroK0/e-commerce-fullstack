@@ -58,8 +58,6 @@ To stop the application, press `Ctrl+C` in the terminal where it's running, or r
 docker-compose down
 ```
 
-[Add any additional setup or configuration steps specific to your project]
-
 ## GraphQL Queries
 
 Here are some example GraphQL queries used in the application:
@@ -150,6 +148,60 @@ mutation createOrder($items: [OrderItemInput!]!) {
       }
     }
     order_date
+  }
+}
+```
+
+### Fetch Orders
+
+```graphql
+query Orders {
+  orders {
+    id
+    order_date
+    total
+    items {
+      product_id
+      name
+      quantity
+      attributes {
+        type
+        name
+        value
+      }
+      price {
+        amount
+        currency_label
+        currency_symbol
+      }
+    }
+  }
+}
+```
+
+### Fetcg Order By Id
+
+```graphql
+query Order($order_id: Int!) {
+  order(order_id: $order_id) {
+    id
+    order_date
+    total
+    items {
+      product_id
+      name
+      quantity
+      attributes {
+        type
+        name
+        value
+      }
+      price {
+        amount
+        currency_label
+        currency_symbol
+      }
+    }
   }
 }
 ```
@@ -305,11 +357,3 @@ CREATE TABLE `order_item_attributes` (
   CONSTRAINT `order_item_attributes_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `order_items` (`id`) ON DELETE CASCADE
 );
 ```
-
-## Contributing
-
-[Add instructions for contributors]
-
-## License
-
-[Add your chosen license information]
