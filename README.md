@@ -34,8 +34,8 @@ This repository contains a full-stack e-commerce web application built with PHP 
 1. Clone this repository:
 
    ```
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/SandroK0/e-commerce-fullstack.git
+   cd e-commerce-fullstack
    ```
 
 2. Build the Docker containers:
