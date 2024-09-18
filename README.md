@@ -179,7 +179,7 @@ query Orders {
 }
 ```
 
-### Fetcg Order By Id
+### Fetch Order By Id
 
 ```graphql
 query Order($order_id: Int!) {
