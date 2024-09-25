@@ -13,7 +13,7 @@
   display: flex;
   width: 400px;
   height: fit-content;
-  z-index: 10; /* Ensure it's on top of everything */
+  z-index: 10;
   right: 72px;
   padding: 16px 32px;
   display: flex;
@@ -31,8 +31,8 @@
   gap: 40px;
 
   max-height: 600px;
-  overflow-y: auto; /* enables horizontal scrolling */
-  white-space: nowrap; /* prevents the content from wrapping */
+  overflow-y: auto;
+  white-space: nowrap;
 }
 
 .btn {
@@ -48,11 +48,9 @@
 
 .blur {
   position: absolute;
-  left: 0;
-  top: 100px;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 9;
   background-color: #23232390;
 }
 
@@ -78,18 +76,30 @@
   line-height: 26px;
 }
 
+.message {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
 @media (max-width: 900px) {
   .cartCont {
-    width: 100%;
-    left: 0px;
     padding: 8px 16px;
-  }
-
-  .blur {
-    top: 80px;
   }
 
   .items {
     max-height: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cartCont {
+    width: 100%;
+    left: 0;
   }
 }

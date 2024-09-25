@@ -71,9 +71,9 @@ export const GET_PRODUCT_BY_ID = `
   }
 `;
 
-export const CREATE_ORDER = `
-mutation createOrder($items: [OrderItemInput!]!) {
-  createOrder(items: $items) {
+export const PLACE_ORDER = `
+mutation placeOrder($items: [OrderItemInput!]!) {
+  placeOrder(items: $items) {
     id
     items {
       product_id

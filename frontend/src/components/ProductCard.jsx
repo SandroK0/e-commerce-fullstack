@@ -50,12 +50,25 @@ class ProductCard extends Component {
 
     addItem(ITEM, 1);
     this.props.setShowCartOverlay(true);
+    this.scrollToTop();
+  };
+
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   render() {
     const { isHovered, product } = this.state;
+
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
     const cardStyle = {
-      boxShadow: isHovered ? "0px 4px 35px 0px #A8ACB060" : "none",
+      boxShadow:
+        isHovered && !isTouchDevice ? "0px 4px 35px 0px #A8ACB060" : "none",
       transition: "box-shadow 0.3s ease",
     };
 
@@ -83,7 +96,7 @@ class ProductCard extends Component {
           {!product.inStock && (
             <div className={styles.outOfStockOverlay}>OUT OF STOCK</div>
           )}
-          {this.state.isHovered && product.inStock ? (
+          {(isTouchDevice ? true : this.state.isHovered && product.inStock) ? (
             <button
               className={styles.cartBtn}
               onClick={(e) => {

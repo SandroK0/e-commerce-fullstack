@@ -89,7 +89,6 @@ class SchemaBuilder
             ],
         ]);
 
-
         $orderItemAttributeOutputType = new ObjectType([
             "name" => "OrderItemAttributOutput",
             "fields" => [
@@ -112,10 +111,16 @@ class SchemaBuilder
         $orderItemOutputType = new ObjectType([
             "name" => "OrderItemOutput",
             "fields" => [
+                "item_id" => ["type" => Type::nonNull(Type::int())],
                 "product_id" => ["type" => Type::nonNull(Type::string())],
                 "name" => ["type" => Type::nonNull(Type::string())],
                 "quantity" => ["type" => Type::nonNull(Type::int())],
-                "attributes" => ["type" => Type::listOf($orderItemAttributeOutputType)],
+                "attributes" => [
+                    "type" => Type::listOf($orderItemAttributeOutputType),
+                    "resolve" => function ($item, $root, $args) {
+                        return $this->attributeResolver->getOrderItemAttributes($item['item_id']);
+                    }
+                ],
                 "price" => ["type" => $priceType],
             ],
         ]);
@@ -178,7 +183,7 @@ class SchemaBuilder
         $mutationType = new ObjectType([
             "name" => "Mutation",
             "fields" => [
-                "createOrder" => [
+                "placeOrder" => [
                     "type" => $orderType,
                     "args" => [
                         "items" => [
@@ -186,7 +191,7 @@ class SchemaBuilder
                         ],
                     ],
                     "resolve" => function ($root, $args) {
-                        return $this->orderResolver->createOrder($args['items']);
+                        return $this->orderResolver->placeOrder($args['items']);
                     },
                 ],
             ],

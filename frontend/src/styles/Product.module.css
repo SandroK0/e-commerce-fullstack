@@ -5,6 +5,8 @@
   gap: 109px;
   justify-content: center;
   margin-bottom: 40px;
+  padding: 0 3%;
+  box-sizing: border-box;
 }
 
 .productInfo {
@@ -22,18 +24,31 @@
   margin: 0;
 }
 
-.addToCartBtn {
-  background: #5ece7b;
-  font-family: Raleway;
+@keyframes colorChange {
+  from {
+    background: Gray;
+  }
+  to {
+    background: #5ece7b;
+  }
+}
 
+.addToCartBtn {
+  background: Gray;
+  font-family: Raleway;
   font-size: 16px;
   font-weight: 600;
-
-  color: #ffff;
-
+  color: #ffffff;
   border: none;
   padding: 16px 90px;
+  cursor: not-allowed;
+}
+
+.addToCartBtnEnabled {
+  background: #5ece7b;
   cursor: pointer;
+  animation: colorChange 0.3s ease forwards;
+  animation-fill-mode: forwards;
 }
 
 .priceCont div {

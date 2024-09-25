@@ -131,11 +131,11 @@ query Product($id: String!) {
 }
 ```
 
-### Create Order Mutation
+### Place Order Mutation
 
 ```graphql
-mutation createOrder($items: [OrderItemInput!]!) {
-  createOrder(items: $items) {
+mutation placeOrder($items: [OrderItemInput!]!) {
+  placeOrder(items: $items) {
     id
     items {
       product_id

@@ -6,12 +6,15 @@ export class CategoryProvider extends Component {
   constructor(props) {
     super(props);
 
+    const savedCategory = localStorage.getItem("currentCategory") || "all";
+
     this.state = {
-      currentCategory: "all",
+      currentCategory: savedCategory,
     };
   }
 
   setCategory = (newCategory) => {
+    localStorage.setItem("currentCategory", newCategory);
     this.setState({ currentCategory: newCategory });
   };
 

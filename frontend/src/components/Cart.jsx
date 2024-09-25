@@ -3,7 +3,7 @@ import { withCart } from "../utils/withCart";
 import { withCartOverlay } from "../utils/withCartOverlay";
 import CartItem from "./CartItem";
 import { GraphQL } from "../graphql/graphqlClient";
-import { CREATE_ORDER } from "../graphql/queries";
+import { PLACE_ORDER } from "../graphql/queries";
 import styles from "../styles/Cart.module.css";
 
 class Cart extends Component {
@@ -19,7 +19,7 @@ class Cart extends Component {
       };
     });
     try {
-      const data = await GraphQL(CREATE_ORDER, { items: orderItems });
+      const data = await GraphQL(PLACE_ORDER, { items: orderItems });
       this.setState({
         data: data,
         loading: false,
@@ -41,7 +41,7 @@ class Cart extends Component {
       cartTotal,
       setShowCartOverlay,
     } = this.props;
-
+    const { data } = this.state;
     const grayedOutBtn = { background: "Gray", cursor: "default" };
 
     return (
@@ -64,12 +64,19 @@ class Cart extends Component {
               {totalItems} {totalItems > 1 ? "items" : "item"}
             </span>
           </div>
-          <div className={styles.items}>
-            {!isEmpty &&
-              items.map((item) => (
+          {!isEmpty ? (
+            <div className={styles.items}>
+              {items.map((item) => (
                 <CartItem item={item} key={item.id}></CartItem>
               ))}
-          </div>
+            </div>
+          ) : (
+            data && (
+              <div className={styles.message}>
+                Order has been placed. Order #{data.placeOrder.id}
+              </div>
+            )
+          )}
           <div className={styles.total}>
             <div>Total:</div>
             <div data-testid="cart-total">${cartTotal.toFixed(2)} </div>

@@ -26,7 +26,9 @@ class Product extends Component {
     if (this.state.locationState) {
       const productId = this.state.locationState.productId;
       this.fetchData(productId);
-    } else this.navigateToHome();
+    } else {
+      this.navigateToHome();
+    }
   }
 
   fetchData = async (id) => {
@@ -44,6 +46,13 @@ class Product extends Component {
     }
   };
 
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   addToCart = (item) => {
     const { addItem } = this.props;
     const { selectedAttributes } = this.state;
@@ -58,6 +67,7 @@ class Product extends Component {
 
     addItem(ITEM, 1);
     this.props.setShowCartOverlay(true);
+    this.scrollToTop();
   };
 
   setAttribute = (attribute) => {
@@ -85,12 +95,14 @@ class Product extends Component {
             {<ImageSlider images={item.images}></ImageSlider>}
             <div className={styles.productInfo}>
               <h1>{item.name}</h1>
-              <DisplayAttributes
-                selectedAttributes={selectedAttributes}
-                setAttribute={this.setAttribute}
-                attributes={item.attributes}
-                inCart={false}
-              ></DisplayAttributes>
+              {item.attributes && (
+                <DisplayAttributes
+                  selectedAttributes={selectedAttributes}
+                  setAttribute={this.setAttribute}
+                  attributes={item.attributes}
+                  inCart={false}
+                ></DisplayAttributes>
+              )}
               <div className={styles.priceCont}>
                 <h2>PRICE:</h2>
                 <div>
@@ -98,12 +110,11 @@ class Product extends Component {
                 </div>
               </div>
               <button
-                className={styles.addToCartBtn}
-                style={{
-                  ...(!isAttributesSelected || !item.inStock
-                    ? grayedOutBtn
-                    : {}),
-                }}
+                className={`${styles.addToCartBtn} ${
+                  isAttributesSelected && item.inStock
+                    ? styles.addToCartBtnEnabled
+                    : ""
+                }`}
                 data-testid="add-to-cart"
                 onClick={() => {
                   this.addToCart(item);

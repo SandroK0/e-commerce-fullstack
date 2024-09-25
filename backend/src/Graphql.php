@@ -1,13 +1,18 @@
 <?php
 
-use App\AttributeResolver;
-use App\CategoryResolver;
 use GraphQL\GraphQL;
 use GraphQL\Error\Error;
 use App\Database;
-use App\ProductResolver;
-use App\OrderResolver;
+use App\Resolvers\ProductResolver;
+use App\Resolvers\AttributeResolver;
+use App\Resolvers\CategoryResolver;
+use App\Resolvers\OrderResolver;
+use App\Repositories\ProductRepository;
+use App\Repositories\AttributeRepository;
+use App\Repositories\CategoryRepository;
+use App\Repositories\OrderRepository;
 use App\SchemaBuilder;
+
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
@@ -22,12 +27,17 @@ $pass = $_ENV['PASSWORD'];
 $db = new Database($db_host, $db_name, $user, $pass);
 $pdo = $db->getConnection();
 
-// Set up resolvers
-$productResolver = new ProductResolver($pdo);
-$categoryResolver = new CategoryResolver($pdo);
-$orderResolver = new OrderResolver($pdo);
-$attributeResolver = new AttributeResolver($pdo);
+// Set up the repositories
+$productRepository = new ProductRepository($pdo);
+$attributeRepository = new AttributeRepository($pdo);
+$categoryRepository = new CategoryRepository($pdo);
+$orderRepository = new OrderRepository($pdo);
 
+// Set up resolvers
+$productResolver = new ProductResolver($productRepository);
+$categoryResolver = new CategoryResolver($categoryRepository);
+$orderResolver = new OrderResolver($orderRepository);
+$attributeResolver = new AttributeResolver($attributeRepository);
 
 // Set up the schema
 $schemaBuilder = new SchemaBuilder($productResolver, $categoryResolver, $orderResolver, $attributeResolver);

@@ -13,7 +13,7 @@ import { GraphQL } from "./graphql/graphqlClient";
 
 import { GET_CATEGORIES_QUERY } from "./graphql/queries";
 
-class AppRouter extends React.Component {
+class Router extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,4 +74,4 @@ class AppRouter extends React.Component {
   }
 }
 
-export default AppRouter;
+export default Router;

@@ -1,48 +1,44 @@
 .home {
-    width: 100%;
-    margin-top: 80px;
-    margin-bottom: 40px;
-  }
-  
-  .categoryHeading {
-    font-size: 42px;
-    font-family: Raleway;
-    margin-bottom: 100px;
-  }
-  
-  .itemGrid {
-    display: grid;
-    place-items: center;
-    grid-template-columns: repeat(4, minmax(300px,1fr));
-    max-width: 100%; /* Ensure grid doesn't exceed the container */
-    width: 100%;
-    box-sizing: border-box;
-    gap:10px;
-  }
- 
-    
+  width: 100%;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  padding: 0 3%;
+  box-sizing: border-box;
+}
+
+.categoryHeading {
+  font-size: 42px;
+  font-family: Raleway;
+  margin-bottom: 100px;
+}
+
+.itemGrid {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(4, minmax(300px, 1fr));
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
 @media (max-width: 1300px) {
   .itemGrid {
-    grid-template-columns: repeat(3, minmax(300px, 1fr)); /* 3 columns on medium screens */
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
   }
 }
 
 @media (max-width: 950px) {
   .itemGrid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on small screens */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-
-
-
-
-@media (max-width:500px) {
-  
+@media (max-width: 500px) {
   .itemGrid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
+    grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .home {
     margin-top: 40px;
   }
@@ -51,4 +47,4 @@
     font-size: 21px;
     margin-bottom: 40px;
   }
-}  
+}

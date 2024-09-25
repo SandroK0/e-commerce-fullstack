@@ -1,8 +1,8 @@
 .imageSlider {
   display: flex;
-  gap: 50px;
-  width: 800px; /* Fixed width */
-  height: 700px; /* Fixed height */
+  width: 1000px;
+  height: 700px;
+  gap: 20px;
 }
 
 .mainImage {
@@ -10,15 +10,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%; /* Match the container width */
-  height: 100%; /* Match the container height */
-  overflow: hidden; /* Hide overflow */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .mainImage img {
-  max-height: 100%; /* Ensure the image scales to fit the container */
+  max-height: 100%;
   max-width: 100%;
-  object-fit: cover; /* Cover the container while maintaining the aspect ratio */
+  object-fit: cover;
   width: auto;
   height: auto;
   display: block;
@@ -48,14 +48,14 @@
   flex-direction: column;
   gap: 20px;
   max-height: 700px;
-  overflow: hidden;
   overflow-y: scroll;
-  padding-right: 30px;
+  overflow: scroll;
+  width: 200px;
 }
 
 .thumbnails img {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: auto;
   object-fit: cover;
   cursor: pointer;
   opacity: 0.6;
@@ -66,38 +66,37 @@
   opacity: 1;
 }
 
-
-
 @media (max-width: 1050px) {
   .imageSlider {
-    flex-direction: column; /* Stack the elements vertically */
+    flex-direction: column;
     gap: 20px;
-    width: 330px; /* Fixed width for smaller screens */
-    height: auto; /* Let height adjust */
+    width: 330px;
+    height: auto;
   }
 
-
   .mainImage img {
-    max-height: 100%; /* Ensure the image scales to fit the container */
+    max-height: 100%;
     max-width: 100%;
     object-fit: cover;
   }
 
   .mainImage button {
-    padding: 8px; /* Reduce button padding */
-    font-size: 14px; /* Smaller font size */
+    padding: 8px;
+    font-size: 14px;
   }
 
   .thumbnails {
-    flex-direction: row; /* Change to row for horizontal scrolling */
-    max-height: 150px; /* Fixed height for the thumbnails container */
-    overflow-x: scroll; /* Horizontal scroll for thumbnails */
+    flex-direction: row;
+    max-height: 150px;
+    overflow-x: scroll;
     gap: 12px;
     padding-right: 0;
+    width: 100%;
+    height: 110px;
   }
 
   .thumbnails img {
-    width: 80px; /* Fixed width */
-    height: 80px; /* Fixed height */
+    width: 80px;
+    height: 80px;
   }
 }

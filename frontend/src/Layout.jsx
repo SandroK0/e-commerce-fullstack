@@ -11,8 +11,8 @@ class Layout extends Component {
 
     return (
       <div className="Layout">
-        {showCartOverlay && <Cart />}
         <Header />
+        {showCartOverlay && <Cart />}
         <Outlet />
       </div>
     );
