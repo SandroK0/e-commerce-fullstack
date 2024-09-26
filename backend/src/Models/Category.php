@@ -2,27 +2,32 @@
 
 namespace App\Models;
 
-class Category
+abstract class AbstractCategory
 {
-    private $id;
-    private $name;
+    protected int $id;
+    protected string $name;
 
-    public function __construct($id, $name)
+    public function __construct(int $id, string $name)
     {
         $this->id = $id;
         $this->name = $name;
     }
 
-    public function toArray()
+    abstract public function toArray(): array;
+
+    public function __toString(): string
+    {
+        return "Id: $this->id, Name: $this->name";
+    }
+}
+
+class Category extends AbstractCategory
+{
+    public function toArray(): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
         ];
-    }
-
-    public function __toString()
-    {
-        return "Id: $this->id, Name: $this->name";
     }
 }

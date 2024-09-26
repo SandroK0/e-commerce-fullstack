@@ -2,7 +2,9 @@
 
 namespace App\Resolvers;
 
+use App\Models\Order;
 use App\Repositories\OrderRepository;
+
 
 class OrderResolver
 {
@@ -23,7 +25,7 @@ class OrderResolver
         }, $orders) : [];
     }
 
-    public function getOrderById($orderId)
+    public function getOrderById(int $orderId)
     {
         $order = $this->orderRepository->getOrderById($orderId);
         return $order ?  $order->toArray() : null;
@@ -32,7 +34,7 @@ class OrderResolver
 
     public function placeOrder(array $items)
     {
-        $response = $this->orderRepository->placeOrder($items);
-        return $response;
+        $order = $this->orderRepository->placeOrder($items);
+        return $order ? $order->toArray() : null;
     }
 }

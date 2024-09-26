@@ -1,21 +1,18 @@
 <?php
 
-
 namespace App\Models;
 
 use App\Models\Price;
 
-
-class OrderItem
+abstract class AbstractOrderItem
 {
-    private $itemId;
-    private $productId;
-    private $name;
-    private $quantity;
-    private $price;
+    protected int $itemId;
+    protected string $productId;
+    protected string $name;
+    protected int $quantity;
+    protected Price $price;
 
-
-    public function __construct($itemId, $productId, $name, $quantity, Price $price)
+    public function __construct(int $itemId, string $productId, string $name, int $quantity, Price $price)
     {
         $this->itemId = $itemId;
         $this->productId = $productId;
@@ -24,12 +21,22 @@ class OrderItem
         $this->price = $price;
     }
 
-    public function getPriceAmount()
+    public function getPriceAmount(): float
     {
         return $this->price->getAmount();
     }
 
-    public function toArray()
+    abstract public function toArray(): array;
+
+    public function __toString(): string
+    {
+        return "Id: $this->itemId, Product ID: $this->productId, Name: $this->name, Quantity: $this->quantity, Price: $this->price";
+    }
+}
+
+class OrderItem extends AbstractOrderItem
+{
+    public function toArray(): array
     {
         return [
             'item_id' => $this->itemId,
@@ -39,9 +46,4 @@ class OrderItem
             'price' => $this->price->toArray(),
         ];
     }
-
-    public function __toString()
-    {
-        return "Id: $this->itemId, Product ID: $this->productId, Name: $this->name, Quantity: $this->quantity, Price: $this->price";
-    }
-};
+}

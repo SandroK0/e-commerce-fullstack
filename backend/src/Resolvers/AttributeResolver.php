@@ -4,6 +4,8 @@ namespace App\Resolvers;
 
 use App\Repositories\AttributeRepository;
 
+
+
 class AttributeResolver
 {
     private $attributeRepository;
@@ -13,15 +15,16 @@ class AttributeResolver
         $this->attributeRepository = $attributeRepository;
     }
 
-    public function getProductAttributes($productId)
+    public function getProductAttributes(string $productId)
     {
         $attributes = $this->attributeRepository->getProductAttributes($productId);
+
         return $attributes ? array_map(function ($attribute) {
             return $attribute->toArray();
         }, $attributes) : [];
     }
 
-    public function getOrderItemAttributes($itemId)
+    public function getOrderItemAttributes(int $itemId)
     {
         $attributes = $this->attributeRepository->getOrderItemAttributes($itemId);
         return $attributes ? array_map(function ($attribute) {

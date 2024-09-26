@@ -42,7 +42,7 @@ class Cart extends Component {
       setShowCartOverlay,
     } = this.props;
     const { data } = this.state;
-    const grayedOutBtn = { background: "Gray", cursor: "default" };
+    const grayedOutBtn = { background: "Gray", cursor: "not-allowed" };
 
     return (
       <div

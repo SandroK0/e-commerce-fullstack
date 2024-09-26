@@ -4,6 +4,8 @@ namespace App\Resolvers;
 
 use App\Repositories\ProductRepository;
 
+
+
 class ProductResolver
 {
     private $productRepository;
@@ -21,9 +23,10 @@ class ProductResolver
         }, $products) : [];
     }
 
-    public function getProductById($id)
+    public function getProductById(string $id)
     {
         $product = $this->productRepository->getProductById($id);
+
         return $product ? $product->toArray() : null;
     }
 }

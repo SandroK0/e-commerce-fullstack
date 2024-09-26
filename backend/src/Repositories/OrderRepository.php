@@ -13,12 +13,10 @@ use Exception;
 
 interface OrderRepositoryInterface
 {
-    public function getOrders();
-    public function getOrderById($orderId);
-    public function placeOrder($items);
+    public function getOrders(): array;
+    public function getOrderById(int $orderId): ?Order;
+    public function placeOrder(array $items): ?Order;
 }
-
-
 
 class OrderRepository implements OrderRepositoryInterface
 {
@@ -30,7 +28,7 @@ class OrderRepository implements OrderRepositoryInterface
     }
 
 
-    public function getOrders()
+    public function getOrders(): array
     {
         $query = "
             SELECT 
@@ -58,7 +56,7 @@ class OrderRepository implements OrderRepositoryInterface
         return $orders;
     }
 
-    public function getOrderById($orderId)
+    public function getOrderById(int $orderId): ?Order
     {
         $query = "
             SELECT 
@@ -84,7 +82,7 @@ class OrderRepository implements OrderRepositoryInterface
     }
 
 
-    public function placeOrder($items)
+    public function placeOrder(array $items): ?Order
     {
 
         $this->pdo->beginTransaction();
@@ -134,7 +132,7 @@ class OrderRepository implements OrderRepositoryInterface
 
             $order = new Order($orderId, $orderItems, date('Y-m-d H:i:s'));
 
-            return $order->toArray();
+            return $order;
         } catch (Exception $e) {
             $this->pdo->rollBack();
             return [

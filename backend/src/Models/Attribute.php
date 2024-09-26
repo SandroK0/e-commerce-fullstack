@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\AttributeItem;
 
-class Attribute
+abstract class AbstractAttribute
 {
-    private $id;
-    private $items = [];
-    private $name;
-    private $type;
+    protected int $id;
+    protected array $items = [];
+    protected string $name;
+    protected string $type;
 
-    public function __construct($id, $items, $name, $type)
+    public function __construct(int $id, array $items, string $name, string $type)
     {
         $this->id = $id;
         $this->items = $items;
@@ -18,9 +19,23 @@ class Attribute
         $this->type = $type;
     }
 
-    public function toArray()
+    public function addItem(AttributeItem $item): void
     {
+        $this->items[] = $item;
+    }
 
+    abstract public function toArray(): array;
+
+    public function __toString(): string
+    {
+        return "Id: $this->id, Items: " . implode(", ", $this->items) . ", Name: $this->name, Type: $this->type";
+    }
+}
+
+class Attribute extends AbstractAttribute
+{
+    public function toArray(): array
+    {
         $itemsArray = array_map(function ($item) {
             return $item->toArray();
         }, $this->items);
@@ -29,12 +44,7 @@ class Attribute
             'id' => $this->id,
             'items' => $itemsArray,
             'name' => $this->name,
-            'type' => $this->type
+            'type' => $this->type,
         ];
-    }
-
-    public function __toString()
-    {
-        return "Id: $this->id, Items: $this->items, Name: $this->name, Type: $this->type";
     }
 }

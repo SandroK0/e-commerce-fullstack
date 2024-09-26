@@ -4,6 +4,8 @@ namespace App\Resolvers;
 
 use App\Repositories\CategoryRepository;
 
+
+
 class CategoryResolver
 {
     private $categoryRepository;
@@ -19,6 +21,6 @@ class CategoryResolver
         $categories = $this->categoryRepository->getCategories();
         return $categories ? array_map(function ($category) {
             return $category->toArray();
-        }, $categories) : null;
+        }, $categories) : [];
     }
 }

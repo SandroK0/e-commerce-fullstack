@@ -2,26 +2,35 @@
 
 namespace App\Models;
 
-
-class Price
+abstract class AbstractPrice
 {
-    private $amount;
-    private $currencyLabel;
-    private $currencySymbol;
+    protected float $amount;
+    protected string $currencyLabel;
+    protected string $currencySymbol;
 
-    public function __construct($amount, $currencyLabel, $currencySymbol)
+    public function __construct(float $amount, string $currencyLabel, string $currencySymbol)
     {
         $this->amount = $amount;
         $this->currencyLabel = $currencyLabel;
         $this->currencySymbol = $currencySymbol;
     }
 
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
-    public function toArray()
+    abstract public function toArray(): array;
+
+    public function __toString(): string
+    {
+        return "Amount: $this->amount, Currency Label: $this->currencyLabel, Currency Symbol: $this->currencySymbol";
+    }
+}
+
+class Price extends AbstractPrice
+{
+    public function toArray(): array
     {
         return [
             'amount' => $this->amount,
@@ -29,9 +38,4 @@ class Price
             'currency_symbol' => $this->currencySymbol,
         ];
     }
-
-    public function __toString()
-    {
-        return "Amount: $this->amount, Currency Label: $this->currencyLabel, Currency Symbol: $this->currencySymbol";
-    }
-};
+}

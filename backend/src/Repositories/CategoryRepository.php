@@ -6,7 +6,12 @@ use PDO;
 use App\Models\Category;
 
 
-class CategoryRepository
+interface CategoryRepositoryInterface
+{
+    public function getCategories(): array;
+}
+
+class CategoryRepository implements CategoryRepositoryInterface
 {
     private $pdo;
 
@@ -15,7 +20,7 @@ class CategoryRepository
         $this->pdo = $pdo;
     }
 
-    public function getCategories()
+    public function getCategories(): array
     {
         $stmt = $this->pdo->query("SELECT * FROM categories");
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

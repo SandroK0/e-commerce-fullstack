@@ -8,6 +8,7 @@ import { withCartOverlay } from "../utils/withCartOverlay.jsx";
 import parse from "html-react-parser";
 import DisplayAttributes from "../components/DisplayAttributes.jsx";
 import styles from "../styles/Product.module.css";
+import { Navigate } from "react-router";
 
 class Product extends Component {
   constructor(props) {
@@ -18,16 +19,14 @@ class Product extends Component {
     };
   }
 
-  navigateToHome = () => {
-    this.props.navigate("/");
-  };
-
   componentDidMount() {
     if (this.state.locationState) {
       const productId = this.state.locationState.productId;
-      this.fetchData(productId);
+      if (productId) {
+        this.fetchData(productId);
+      }
     } else {
-      this.navigateToHome();
+      this.setState({ NoProductId: true });
     }
   }
 
@@ -79,57 +78,63 @@ class Product extends Component {
     });
   };
 
-  render() {
-    const { data, loading, error, selectedAttributes } = this.state;
-    const grayedOutBtn = { background: "Gray", cursor: "default" };
+  renderLoading() {
+    return <p>Loading...</p>;
+  }
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <>{error.message}</>;
-    if (data) {
-      const item = data.product;
-      const isAttributesSelected =
-        this.state.selectedAttributes.length === item.attributes.length;
-      return (
-        <div>
-          <div className={styles.productPage}>
-            {<ImageSlider images={item.images}></ImageSlider>}
-            <div className={styles.productInfo}>
-              <h1>{item.name}</h1>
-              {item.attributes && (
-                <DisplayAttributes
-                  selectedAttributes={selectedAttributes}
-                  setAttribute={this.setAttribute}
-                  attributes={item.attributes}
-                  inCart={false}
-                ></DisplayAttributes>
-              )}
-              <div className={styles.priceCont}>
-                <h2>PRICE:</h2>
-                <div>
-                  {item.price.currency_symbol} {item.price.amount}
-                </div>
-              </div>
-              <button
-                className={`${styles.addToCartBtn} ${
-                  isAttributesSelected && item.inStock
-                    ? styles.addToCartBtnEnabled
-                    : ""
-                }`}
-                data-testid="add-to-cart"
-                onClick={() => {
-                  this.addToCart(item);
-                }}
-                disabled={!isAttributesSelected || !item.inStock}
-              >
-                ADD TO CART
-              </button>
-              <div data-testid="product-description">
-                {parse(item.description)}
-              </div>
+  renderError() {
+    return <p>{this.state.error.message}</p>;
+  }
+
+  renderProduct(item) {
+    const isAttributesSelected =
+      this.state.selectedAttributes.length === item.attributes.length;
+
+    return (
+      <div className={styles.productPage}>
+        <ImageSlider images={item.images} />
+        <div className={styles.productInfo}>
+          <h1>{item.name}</h1>
+          {item.attributes && (
+            <DisplayAttributes
+              selectedAttributes={this.state.selectedAttributes}
+              setAttribute={this.setAttribute}
+              attributes={item.attributes}
+              inCart={false}
+            />
+          )}
+          <div className={styles.priceCont}>
+            <h2>PRICE:</h2>
+            <div>
+              {item.price.currency_symbol} {item.price.amount}
             </div>
           </div>
+          <button
+            className={`${styles.addToCartBtn} ${
+              isAttributesSelected && item.inStock
+                ? styles.addToCartBtnEnabled
+                : ""
+            }`}
+            data-testid="add-to-cart"
+            onClick={() => this.addToCart(item)}
+            disabled={!isAttributesSelected || !item.inStock}
+          >
+            ADD TO CART
+          </button>
+          <div data-testid="product-description">{parse(item.description)}</div>
         </div>
-      );
+      </div>
+    );
+  }
+
+  render() {
+    const { data, loading, error, NoProductId } = this.state;
+
+    if (NoProductId) return <Navigate to={"/"} replace></Navigate>;
+    if (loading) return this.renderLoading();
+    if (error) return this.renderError();
+    if (data) {
+      return this.renderProduct(data.product);
     }
   }
 }

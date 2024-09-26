@@ -11,8 +11,8 @@ use PDO;
 
 interface ProductRepositoryInterface
 {
-    public function getAllProducts();  // Method to get all products
-    public function getProductById($id);  // Method to get a single product by its ID
+    public function getAllProducts(): array;
+    public function getProductById(string $id): ?Product;
 }
 
 class ProductRepository implements ProductRepositoryInterface
@@ -24,7 +24,7 @@ class ProductRepository implements ProductRepositoryInterface
         $this->pdo = $pdo;
     }
 
-    public function getAllProducts()
+    public function getAllProducts(): array
     {
         $query = "
         SELECT
@@ -57,14 +57,16 @@ class ProductRepository implements ProductRepositoryInterface
         $imagesByProductId = $this->getProductImages();
         $products = [];
         foreach ($results as $row) {
-            $products[] = $this->createProductFromRow($row, $imagesByProductId[$row["id"]]);
+            $products[] = $this->createProductFromRow($row, $imagesByProductId[$row["id"]] ?? []);
         }
 
         return $products;
     }
 
-    public function getProductById($id)
+    public function getProductById(string $id): ?Product
     {
+
+
         $query = "
             SELECT
                 p.id AS id,
@@ -91,14 +93,13 @@ class ProductRepository implements ProductRepositoryInterface
         $stmt->bindParam(":productId", $id, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if (!$result) {
             return null;
         }
 
         $imagesByProductId = $this->getProductImages($id);
 
-        return $this->createProductFromRow($result, $imagesByProductId[$id]);
+        return $this->createProductFromRow($result, $imagesByProductId[$id] ?? []);
     }
 
     private function getProductImages($productId = null)
@@ -139,6 +140,7 @@ class ProductRepository implements ProductRepositoryInterface
             $price,
             $images
         );
+
         return $product;
     }
 }

@@ -1,22 +1,20 @@
 <?php
 
-
 namespace App\Models;
 
 use App\Models\Category;
 use App\Models\Price;
 
-
-class Product
+abstract class AbstractProduct
 {
-    private $id;
-    private $name;
-    private $description;
-    private $inStock;
-    private $category;
-    private $brand;
-    private $price;
-    private $images = [];
+    protected string $id;
+    protected string $name;
+    protected string $description;
+    protected int $inStock;
+    protected Category $category;
+    protected string $brand;
+    protected Price $price;
+    protected array $images = [];
 
     public function __construct($id, $name, $description, $inStock, Category $category, $brand, Price $price, array $images)
     {
@@ -30,24 +28,10 @@ class Product
         $this->images = $images;
     }
 
-    public function toArray()
+    abstract public function toArray(): array;
+
+    public function __toString(): string
     {
-
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'inStock' => $this->inStock,
-            'category' => $this->category->toArray(),
-            'brand' => $this->brand,
-            'price' => $this->price->toArray(),
-            'images' => $this->images,
-        ];
-    }
-
-    public function __toString()
-    {
-
         $imageList = implode(",\n ", $this->images);
 
         return "Id: $this->id\n, 
@@ -59,4 +43,21 @@ class Product
         Price: $this->price\n, 
         Images: [$imageList]";
     }
-};
+}
+
+class Product extends AbstractProduct
+{
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'inStock' => $this->inStock,
+            'category' => $this->category->toArray(),
+            'brand' => $this->brand,
+            'price' => $this->price->toArray(),
+            'images' => $this->images,
+        ];
+    }
+}

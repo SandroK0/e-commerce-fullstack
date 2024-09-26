@@ -7,9 +7,13 @@ use App\Models\AttributeItem;
 use App\Models\OrderItemAttribute;
 use PDO;
 
+interface AttributeRepositoryInterface
+{
+    public function getProductAttributes(string $productId): array;
+    public function getOrderItemAttributes(int $itemId): array;
+}
 
-
-class AttributeRepository
+class AttributeRepository implements AttributeRepositoryInterface
 {
     private $pdo;
 
@@ -18,13 +22,17 @@ class AttributeRepository
         $this->pdo = $pdo;
     }
 
-    public function getProductAttributes($productId)
+    public function getProductAttributes(string $productId): array
     {
         $attributeStmt = $this->pdo->prepare(
             "SELECT * FROM product_attributes WHERE product_id = :id"
         );
         $attributeStmt->execute([":id" => $productId]);
         $results = $attributeStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$results) {
+            return [];
+        }
 
         $attributeItemStmt = $this->pdo->prepare(
             "SELECT * FROM attribute_items WHERE product_id = :id"
@@ -50,7 +58,7 @@ class AttributeRepository
         return $attributes;
     }
 
-    public function getOrderItemAttributes($itemId)
+    public function getOrderItemAttributes(int $itemId): array
     {
 
 
