@@ -18,8 +18,13 @@ This repository contains a full-stack e-commerce web application built with PHP 
 
 ## Screenshots
 
+### Product Listing
 ![Screenshot 1](./screenshot1.png)
+
+### Product Details
 ![Screenshot 2](./screenshot2.png)
+
+### Cart
 ![Screenshot 3](./screenshot3.png)
 
 ## Getting Started
