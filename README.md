@@ -33,9 +33,9 @@ This repository contains a full-stack e-commerce web application built with PHP 
 ### Responsive Design
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./screenshots/screenshot4.png" alt="Screenshot 4" width="360"/>
-  <img src="./screenshots/screenshot5.png" alt="Screenshot 5" width="360"/>
-  <img src="./screenshots/screenshot6.png" alt="Screenshot 6" width="360"/>
+  <img src="./screenshots/screenshot4.png" alt="Screenshot 4" width="300"/>
+  <img src="./screenshots/screenshot5.png" alt="Screenshot 5" width="300"/>
+  <img src="./screenshots/screenshot6.png" alt="Screenshot 6" width="300"/>
 </div>
 
 ## Getting Started
