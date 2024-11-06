@@ -1,22 +1,20 @@
 <?php
 
-use GraphQL\GraphQL;
-use GraphQL\Error\Error;
-use App\Database;
-use App\Resolvers\ProductResolver;
-use App\Resolvers\AttributeResolver;
-use App\Resolvers\CategoryResolver;
-use App\Resolvers\OrderResolver;
-use App\Repositories\ProductRepository;
 use App\Repositories\AttributeRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use App\Resolvers\AttributeResolver;
+use App\Resolvers\CategoryResolver;
+use App\Resolvers\OrderResolver;
+use App\Resolvers\ProductResolver;
+use App\Database;
 use App\SchemaBuilder;
+use GraphQL\Error\Error;
+use GraphQL\GraphQL;
 
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
-
 
 $db_host = $_ENV['DB_HOST'];
 $db_name = $_ENV['DB_NAME'];
@@ -44,11 +42,11 @@ $schemaBuilder = new SchemaBuilder($productResolver, $categoryResolver, $orderRe
 $schema = $schemaBuilder->buildSchema();
 
 // Process the GraphQL request
-$rawInput = file_get_contents("php://input");
+$rawInput = file_get_contents('php://input');
 $input = json_decode($rawInput, true);
 
-$query = $input["query"] ?? "";
-$variables = $input["variables"] ?? [];
+$query = $input['query'] ?? '';
+$variables = $input['variables'] ?? [];
 
 if (empty($query)) {
     echo json_encode(['errors' => ['No query provided']]);
@@ -61,12 +59,12 @@ try {
     $output = $result->toArray();
 } catch (Error $error) {
     // Handle GraphQL specific errors
-    $output = ["errors" => [$error->getMessage()]];
+    $output = ['errors' => [$error->getMessage()]];
 } catch (\Exception $error) {
     // Handle general exceptions
-    $output = ["errors" => [$error->getMessage()]];
+    $output = ['errors' => [$error->getMessage()]];
 }
 
 // Output the result
-header("Content-Type: application/json");
+header('Content-Type: application/json');
 echo json_encode($output);

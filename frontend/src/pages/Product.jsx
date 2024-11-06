@@ -14,14 +14,13 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationState: props.location.state,
       selectedAttributes: [],
     };
   }
 
   componentDidMount() {
-    if (this.state.locationState) {
-      const productId = this.state.locationState.productId;
+    if (this.props.params) {
+      const { productId } = this.props.params
       if (productId) {
         this.fetchData(productId);
       }
@@ -71,8 +70,8 @@ class Product extends Component {
 
   setAttribute = (attribute) => {
     const updatedAttributes = this.state.selectedAttributes.filter(
-      (att) => att.name !== attribute.name
     );
+    (att) => att.name !== attribute.name
     this.setState({
       selectedAttributes: [...updatedAttributes, attribute],
     });
@@ -110,11 +109,10 @@ class Product extends Component {
             </div>
           </div>
           <button
-            className={`${styles.addToCartBtn} ${
-              isAttributesSelected && item.inStock
-                ? styles.addToCartBtnEnabled
-                : ""
-            }`}
+            className={`${styles.addToCartBtn} ${isAttributesSelected && item.inStock
+              ? styles.addToCartBtnEnabled
+              : ""
+              }`}
             data-testid="add-to-cart"
             onClick={() => this.addToCart(item)}
             disabled={!isAttributesSelected || !item.inStock}

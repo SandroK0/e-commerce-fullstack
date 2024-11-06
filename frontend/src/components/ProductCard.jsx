@@ -73,7 +73,7 @@ class ProductCard extends Component {
     };
 
     const navigateToProduct = () => {
-      this.props.navigate("/product", { state: { productId: product.id } });
+      this.props.navigate(`/product/${product.id}`);
     };
 
     return (

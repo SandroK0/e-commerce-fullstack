@@ -10,7 +10,6 @@ import Product from "./pages/Product";
 import Layout from "./Layout";
 import Home from "./pages/Home";
 import { GraphQL } from "./graphql/graphqlClient";
-
 import { GET_CATEGORIES_QUERY } from "./graphql/queries";
 
 class Router extends React.Component {
@@ -33,13 +32,11 @@ class Router extends React.Component {
       const categories = data.categories;
 
       const dynamicRoutes = categories.map((category) => (
-        <Route
-          key={category.id}
-          path={`/${category.name.toLowerCase()}`}
-          loader={() => {
-            return { category: category.name };
-          }}
-          element={<Home />}
+        <Route key={category.id} path={`/${category.name.toLowerCase()}`} loader={() => {
+          return { category: category.name };
+        }}
+          element={
+            <Home />}
         />
       ));
 
@@ -48,7 +45,7 @@ class Router extends React.Component {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Navigate to="/all" replace />} />
             {dynamicRoutes}
-            <Route path="/product" element={<Product />} />
+            <Route path="/product/:productId" element={<Product />} />
           </Route>
         )
       );
@@ -70,7 +67,9 @@ class Router extends React.Component {
       return <div>Error: {error}</div>;
     }
 
-    return <RouterProvider router={router} />;
+    return (
+      <RouterProvider router={router} />
+    )
   }
 }
 

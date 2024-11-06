@@ -2,12 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
 use App\Models\Category;
 use App\Models\Price;
-
+use App\Models\Product;
 use PDO;
-
 
 interface ProductRepositoryInterface
 {
@@ -26,7 +24,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getAllProducts(): array
     {
-        $query = "
+        $query = '
         SELECT
             p.id AS id,
             p.name AS name,
@@ -44,11 +42,10 @@ class ProductRepository implements ProductRepositoryInterface
             categories c ON p.category_id = c.id
         LEFT JOIN
             prices prc ON p.id = prc.product_id
-        ";
+        ';
 
         $stmt = $this->pdo->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
         if (empty($results)) {
             return [];
@@ -57,7 +54,7 @@ class ProductRepository implements ProductRepositoryInterface
         $imagesByProductId = $this->getProductImages();
         $products = [];
         foreach ($results as $row) {
-            $products[] = $this->createProductFromRow($row, $imagesByProductId[$row["id"]] ?? []);
+            $products[] = $this->createProductFromRow($row, $imagesByProductId[$row['id']] ?? []);
         }
 
         return $products;
@@ -65,9 +62,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getProductById(string $id): ?Product
     {
-
-
-        $query = "
+        $query = '
             SELECT
                 p.id AS id,
                 p.name AS name,
@@ -87,10 +82,10 @@ class ProductRepository implements ProductRepositoryInterface
                 prices prc ON p.id = prc.product_id
             WHERE
                 p.id = :productId
-        ";
+        ';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(":productId", $id, PDO::PARAM_STR);
+        $stmt->bindParam(':productId', $id, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) {
@@ -104,11 +99,11 @@ class ProductRepository implements ProductRepositoryInterface
 
     private function getProductImages($productId = null)
     {
-        $query = "SELECT * FROM product_images";
+        $query = 'SELECT * FROM product_images';
         $params = [];
 
         if ($productId !== null) {
-            $query .= " WHERE product_id = :productId";
+            $query .= ' WHERE product_id = :productId';
             $params[':productId'] = $productId;
         }
 
@@ -118,8 +113,8 @@ class ProductRepository implements ProductRepositoryInterface
 
         $imagesByProductId = [];
         foreach ($images as $image) {
-            $pid = $image["product_id"];
-            $imagesByProductId[$pid][] = $image["image_url"];
+            $pid = $image['product_id'];
+            $imagesByProductId[$pid][] = $image['image_url'];
         }
 
         return $imagesByProductId;
@@ -127,16 +122,16 @@ class ProductRepository implements ProductRepositoryInterface
 
     private function createProductFromRow($row, $images)
     {
-        $category = new Category($row["category_id"], $row["category_name"]);
-        $price = new Price($row["price_amount"], $row["currency_label"], $row["currency_symbol"]);
+        $category = new Category($row['category_id'], $row['category_name']);
+        $price = new Price($row['price_amount'], $row['currency_label'], $row['currency_symbol']);
 
         $product = new Product(
-            $row["id"],
-            $row["name"],
-            $row["description"],
-            $row["inStock"],
+            $row['id'],
+            $row['name'],
+            $row['description'],
+            $row['inStock'],
             $category,
-            $row["brand"],
+            $row['brand'],
             $price,
             $images
         );
