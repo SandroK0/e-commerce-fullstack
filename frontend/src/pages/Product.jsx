@@ -70,12 +70,14 @@ class Product extends Component {
 
   setAttribute = (attribute) => {
     const updatedAttributes = this.state.selectedAttributes.filter(
+      (att) => att.name !== attribute.name
     );
-    (att) => att.name !== attribute.name
+  
     this.setState({
       selectedAttributes: [...updatedAttributes, attribute],
     });
   };
+
 
   renderLoading() {
     return <p>Loading...</p>;
