@@ -98,6 +98,9 @@ Here are some example GraphQL queries used in the application:
             currency_label
             currency_symbol
         }
+        discount {
+          new_amount
+        }
         attributes {
             id
             name
@@ -132,6 +135,9 @@ query Product($id: String!) {
       amount
       currency_label
       currency_symbol
+    }
+    discount {
+      new_amount
     }
     attributes {
       id
@@ -227,52 +233,69 @@ query Order($order_id: Int!) {
 Below is a visual representation of the database tables using ASCII art:
 
 ```
-+----------------+     +----------------+     +----------------+
-|   products     |     |   categories   |     |    prices      |
-+----------------+     +----------------+     +----------------+
-| id (PK)        |     | id (PK)        |     | id (PK)        |
-| name           |     | name           |     | product_id (FK)|
-| description    |     +----------------+     | amount         |
-| inStock        |                            | currency_label |
-| category_id(FK)|     +----------------+     | currency_symbol|
-| brand          |     |   attributes   |     +----------------+
-+----------------+     +----------------+
-        |               | id (PK)        |     +----------------+
-        |               | name           |     | product_images |
-        |               | type           |     +----------------+
-        |               +----------------+     | id (PK)        |
-        |                                      | product_id (FK)|
-        |               +----------------+     | image_url      |
-        |               |attribute_items |     +----------------+
-        |               +----------------+
-        |               | id (PK)        |     +----------------+
-        |               | product_id (FK)|     |product_attributes|
-        |               | name           |     +----------------+
-        |               | value          |     | id (PK)        |
-        |               | displayValue   |     | product_id (FK)|
-        |               +----------------+     | name           |
-        |                                      | type           |
-        |               +----------------+     +----------------+
-        |               |    orders      |
-        |               +----------------+     +----------------+
-        |               | id (PK)        |     | order_items    |
-        |               | order_date     |     +----------------+
-        |               +----------------+     | id (PK)        |
-        |                        |             | order_id (FK)  |
-        |                        |             | product_id (FK)|
-        |                        |             | name           |
-        |                        |             | quantity       |
-        |                        |             +----------------+
-        |                        |
-        |                        |             +----------------+
-        |                        |             |order_item_attributes|
-        |                        |             +----------------+
-        |                        |             | id (PK)        |
-        |                        |             | item_id (FK)   |
-        |                        |             | name           |
-        |                        |             | value          |
-        |                        |             | type           |
-        |                        |             +----------------+
++-------------------+        +-------------------+
+|     categories    |        |      products     |
++-------------------+        +-------------------+
+| id                |<-------| id                |
+| name              |        | name              |
++-------------------+        | description       |
+                             | inStock           |
+                             | category_id       |
+                             | brand             |
+                             +-------------------+
+                                     |
+                                     |
+        +---------------------------+----------------------------+
+        |                           |                           |
+    +---v---+                   +---v---+                   +---v---+
+    | prices |                   |product_images|            |discounts|
+    +--------+                   +--------------+            +---------+
+    |product_id|                 |product_id    |            |product_id|
+    |amount    |                 |image_url     |            |new_amount|
+    |currency_ |                 +--------------+            +---------+
+    |label     |
+    |currency_ |
+    |symbol    |
+    +----------+
+        
++-------------------+        +---------------------+
+|    attributes     |        | product_attributes  |
++-------------------+        +---------------------+
+| id                |        | product_id          |
+| name              |        | name                |
+| type              |        | type                |
++-------------------+        +---------------------+
+    |                               |
+    |                               |
++---v------------+             +----v------------+
+|attribute_items |             |product_attributes|
++----------------+             +------------------+
+|product_id      |             |name              |
+|name            |             |value             |
+|value           |             |type              |
+|display_value   |             +------------------+
++----------------+
+
++-------------------+        +-------------------+
+|      orders       |        |   order_items     |
++-------------------+        +-------------------+
+| id                |<-------| id                |
+| order_date        |        | order_id          |
++-------------------+        | product_id        |
+                             | name              |
+                             | quantity          |
+                             +-------------------+
+                                     |
+                                     |
+                             +-------v-----------+
+                             |order_item_        |
+                             |attributes         |
+                             +-------------------+
+                             |item_id            |
+                             |name               |
+                             |value              |
+                             |type               |
+                             +-------------------+
 ```
 
 ### SQL Schema
@@ -307,6 +330,15 @@ CREATE TABLE `prices` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `prices_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 );
+
+CREATE TABLE `discounts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` varchar(32) DEFAULT NULL,
+  `new_amount` float DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `discounts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+)
 
 CREATE TABLE `product_images` (
   `id` int NOT NULL AUTO_INCREMENT,

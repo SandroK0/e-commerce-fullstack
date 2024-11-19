@@ -1,0 +1,34 @@
+.discountContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Arial, sans-serif;
+}
+
+.priceSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.originalPrice .strikethrough {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 14px;
+}
+
+.discountedPrice {
+  color: #e63946;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.discountBadge {
+  background-color: #ffcc00;
+  color: #000;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+  text-transform: uppercase;
+}

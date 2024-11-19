@@ -16,6 +16,9 @@ export const GET_PRODUCTS_QUERY = `
             currency_label
             currency_symbol
         }
+        discount {
+          new_amount
+        }
         attributes {
             id
             name
@@ -56,6 +59,9 @@ export const GET_PRODUCT_BY_ID = `
             amount
             currency_label
             currency_symbol
+        }
+        discount {
+          new_amount
         }
         attributes {
             id

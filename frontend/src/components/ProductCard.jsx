@@ -4,6 +4,7 @@ import { withRouter } from "../utils/withRouter";
 import { withCart } from "../utils/withCart";
 import { withCartOverlay } from "../utils/withCartOverlay";
 import styles from "../styles/ProductCard.module.css";
+import Discount from "./Discount";
 
 class ProductCard extends Component {
   constructor(props) {
@@ -39,11 +40,11 @@ class ProductCard extends Component {
       });
     }
 
-    let ITEM = {
+    const ITEM = {
       id: item.id,
       name: item.name,
       img: item.images[0],
-      price: item.price.amount,
+      price: item.discount ? item.discount.new_amount : item.price.amount,
       attributes: item.attributes,
       selectedAttributes,
     };
@@ -110,7 +111,16 @@ class ProductCard extends Component {
         <div>
           <div className={styles.name}>{product.name}</div>
           <div className={styles.price}>
-            {product.price.currency_symbol} {product.price.amount}
+            {product.discount ? (
+              <Discount
+                price={product.price}
+                discount={product.discount}
+              ></Discount>
+            ) : (
+              <>
+                {product.price.currency_symbol} {product.price.amount}
+              </>
+            )}
           </div>
         </div>
       </div>

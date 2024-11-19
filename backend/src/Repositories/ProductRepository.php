@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\Price;
 use App\Models\Product;
 use PDO;
@@ -35,9 +36,12 @@ class ProductRepository implements ProductRepositoryInterface
             c.name AS category_name,
             prc.amount AS price_amount,
             prc.currency_label,
-            prc.currency_symbol
+            prc.currency_symbol,
+            dsc.new_amount
         FROM
             products p
+        LEFT JOIN 
+            discounts dsc ON p.id = dsc.product_id
         LEFT JOIN
             categories c ON p.category_id = c.id
         LEFT JOIN
@@ -73,9 +77,12 @@ class ProductRepository implements ProductRepositoryInterface
                 p.brand AS brand,
                 prc.amount AS price_amount,
                 prc.currency_label,
-                prc.currency_symbol
+                prc.currency_symbol,
+                dsc.new_amount
             FROM
                 products p
+            LEFT JOIN 
+                discounts dsc ON p.id = dsc.product_id
             LEFT JOIN
                 categories c ON p.category_id = c.id
             LEFT JOIN
@@ -83,6 +90,7 @@ class ProductRepository implements ProductRepositoryInterface
             WHERE
                 p.id = :productId
         ';
+
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':productId', $id, PDO::PARAM_STR);
@@ -124,6 +132,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $category = new Category($row['category_id'], $row['category_name']);
         $price = new Price($row['price_amount'], $row['currency_label'], $row['currency_symbol']);
+        $discount = $row['new_amount'] ? new Discount($row['new_amount']) : null;
 
         $product = new Product(
             $row['id'],
@@ -133,6 +142,7 @@ class ProductRepository implements ProductRepositoryInterface
             $category,
             $row['brand'],
             $price,
+            $discount,
             $images
         );
 

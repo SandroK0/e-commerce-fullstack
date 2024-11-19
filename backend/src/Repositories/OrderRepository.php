@@ -2,14 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Models\Price;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderItem;
-
-
-use PDO;
-
+use App\Models\Price;
 use Exception;
+use PDO;
 
 interface OrderRepositoryInterface
 {
@@ -27,15 +25,14 @@ class OrderRepository implements OrderRepositoryInterface
         $this->pdo = $pdo;
     }
 
-
     public function getOrders(): array
     {
-        $query = "
+        $query = '
             SELECT 
                 *
             FROM 
                 orders
-        ";
+        ';
 
         $stmt = $this->pdo->query($query);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -58,14 +55,14 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getOrderById(int $orderId): ?Order
     {
-        $query = "
+        $query = '
             SELECT 
                 *
             FROM
                 orders
             WHERE 
                 id = :orderId
-        ";
+        ';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':orderId', $orderId, PDO::PARAM_INT);
@@ -77,14 +74,11 @@ class OrderRepository implements OrderRepositoryInterface
         }
         $orderItemsByOrderId = $this->getOrderItems($orderId);
 
-
-        return  $this->createOrderFromRow($results, $orderItemsByOrderId[$results['id']]);;
+        return $this->createOrderFromRow($results, $orderItemsByOrderId[$results['id']]);;
     }
-
 
     public function placeOrder(array $items): ?Order
     {
-
         $this->pdo->beginTransaction();
 
         try {
@@ -95,7 +89,7 @@ class OrderRepository implements OrderRepositoryInterface
             $orderItems = [];
             foreach ($items as $item) {
                 if (empty($item['product_id']) || empty($item['name']) || empty($item['quantity'])) {
-                    throw new Exception("Incorrect Data");
+                    throw new Exception('Incorrect Data');
                 }
 
                 $stmt = $this->pdo->prepare('INSERT INTO order_items (order_id, product_id, name, quantity) VALUES (:order_id, :product_id, :name, :quantity)');
@@ -107,12 +101,20 @@ class OrderRepository implements OrderRepositoryInterface
                 ]);
                 $itemId = $this->pdo->lastInsertId();
 
-                $priceStmt = $this->pdo->prepare('SELECT amount, currency_label, currency_symbol FROM prices WHERE product_id = :product_id');
+                $priceStmt = $this->pdo->prepare(
+                    'SELECT p.amount, p.currency_label, p.currency_symbol, dsc.new_amount 
+                     FROM prices p 
+                     LEFT JOIN discounts dsc ON p.product_id = dsc.product_id 
+                     WHERE p.product_id = :product_id'
+                );
+
                 $priceStmt->execute(['product_id' => $item['product_id']]);
                 $priceData = $priceStmt->fetch(PDO::FETCH_ASSOC);
 
                 $price = new Price($priceData['amount'], $priceData['currency_label'], $priceData['currency_symbol']);
-                $orderItem = new OrderItem($itemId, $item['product_id'], $item['name'], $item['quantity'], $price);
+                $discount = $priceData['new_amount'] ? new Discount($priceData['new_amount']) : null;
+
+                $orderItem = new OrderItem($itemId, $item['product_id'], $item['name'], $item['quantity'], $price, $discount);
                 $orderItems[] = $orderItem;
 
                 if (!empty($item['attributes'])) {
@@ -143,30 +145,30 @@ class OrderRepository implements OrderRepositoryInterface
 
     private function createOrderFromRow($row, $items)
     {
-
-        $order  = new Order($row['id'], $items, $row['order_date']);
+        $order = new Order($row['id'], $items, $row['order_date']);
         return $order;
     }
 
     private function getOrderItems($orderId = null)
     {
-        $query = "
+        $query = '
             SELECT 
                 oi.*,
                 p.amount AS price_amount,
                 p.currency_label,
-                p.currency_symbol
+                p.currency_symbol,
+                dsc.new_amount
             FROM order_items oi
+            LEFT JOIN discounts dsc ON oi.product_id = dsc.product_id
             LEFT JOIN prices p ON oi.product_id = p.product_id
-        ";
+        ';
 
         $params = [];
 
         if ($orderId !== null) {
-            $query .= " WHERE oi.order_id = :orderId";
+            $query .= ' WHERE oi.order_id = :orderId';
             $params[':orderId'] = $orderId;
         }
-
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
@@ -175,9 +177,9 @@ class OrderRepository implements OrderRepositoryInterface
         $orderItemsByOrderId = [];
         foreach ($results as $row) {
             $orderId = $row['order_id'];
-            $itemPrice = new Price($row["price_amount"], $row["currency_label"], $row["currency_symbol"]);
-            $orderItem = new OrderItem($row['id'], $row['product_id'], $row['name'], $row['quantity'], $itemPrice);
-
+            $itemPrice = new Price($row['price_amount'], $row['currency_label'], $row['currency_symbol']);
+            $discount = $row['new_amount'] ? new Discount($row['new_amount']) : null;
+            $orderItem = new OrderItem($row['id'], $row['product_id'], $row['name'], $row['quantity'], $itemPrice, $discount);
 
             $orderItemsByOrderId[$orderId][] = $orderItem;
         }

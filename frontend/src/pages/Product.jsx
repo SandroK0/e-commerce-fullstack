@@ -9,6 +9,7 @@ import parse from "html-react-parser";
 import DisplayAttributes from "../components/DisplayAttributes.jsx";
 import styles from "../styles/Product.module.css";
 import { Navigate } from "react-router";
+import Discount from "../components/Discount.jsx";
 
 class Product extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Product extends Component {
 
   componentDidMount() {
     if (this.props.params) {
-      const { productId } = this.props.params
+      const { productId } = this.props.params;
       if (productId) {
         this.fetchData(productId);
       }
@@ -54,11 +55,11 @@ class Product extends Component {
   addToCart = (item) => {
     const { addItem } = this.props;
     const { selectedAttributes } = this.state;
-    let ITEM = {
+    const ITEM = {
       id: item.id,
       name: item.name,
       img: item.images[0],
-      price: item.price.amount,
+      price: item.discount ? item.discount.new_amount : item.price.amount,
       attributes: item.attributes,
       selectedAttributes,
     };
@@ -72,12 +73,11 @@ class Product extends Component {
     const updatedAttributes = this.state.selectedAttributes.filter(
       (att) => att.name !== attribute.name
     );
-  
+    (att) => att.name !== attribute.name;
     this.setState({
       selectedAttributes: [...updatedAttributes, attribute],
     });
   };
-
 
   renderLoading() {
     return <p>Loading...</p>;
@@ -90,7 +90,7 @@ class Product extends Component {
   renderProduct(item) {
     const isAttributesSelected =
       this.state.selectedAttributes.length === item.attributes.length;
-
+    console.log(item);
     return (
       <div className={styles.productPage}>
         <ImageSlider images={item.images} />
@@ -107,14 +107,24 @@ class Product extends Component {
           <div className={styles.priceCont}>
             <h2>PRICE:</h2>
             <div>
-              {item.price.currency_symbol} {item.price.amount}
+              {item.discount ? (
+                <Discount
+                  price={item.price}
+                  discount={item.discount}
+                ></Discount>
+              ) : (
+                <>
+                  {item.price.currency_symbol} {item.price.amount}
+                </>
+              )}
             </div>
           </div>
           <button
-            className={`${styles.addToCartBtn} ${isAttributesSelected && item.inStock
-              ? styles.addToCartBtnEnabled
-              : ""
-              }`}
+            className={`${styles.addToCartBtn} ${
+              isAttributesSelected && item.inStock
+                ? styles.addToCartBtnEnabled
+                : ""
+            }`}
             data-testid="add-to-cart"
             onClick={() => this.addToCart(item)}
             disabled={!isAttributesSelected || !item.inStock}
