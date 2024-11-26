@@ -32,6 +32,9 @@ class OrderRepository implements OrderRepositoryInterface
                 *
             FROM 
                 orders
+            ORDER BY
+                order_date
+            DESC
         ';
 
         $stmt = $this->pdo->query($query);
@@ -173,6 +176,7 @@ class OrderRepository implements OrderRepositoryInterface
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
         $orderItemsByOrderId = [];
         foreach ($results as $row) {

@@ -15,12 +15,18 @@ export const GraphQL = async (query, variables = {}) => {
     });
 
     const result = await response.json();
+
     if (response.ok) {
+      if (result.errors) {
+        throw new Error(result.errors.map((error) => error.message).join(", "));
+      }
       return result.data;
     } else {
-      throw new Error(result.errors[0]?.message || "Unknown error");
+      throw new Error(
+        result.errors ? result.errors[0]?.message : "Unknown error"
+      );
     }
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 };

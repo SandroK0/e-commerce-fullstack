@@ -90,7 +90,6 @@ class Product extends Component {
   renderProduct(item) {
     const isAttributesSelected =
       this.state.selectedAttributes.length === item.attributes.length;
-    console.log(item);
     return (
       <div className={styles.productPage}>
         <ImageSlider images={item.images} />
@@ -111,6 +110,7 @@ class Product extends Component {
                 <Discount
                   price={item.price}
                   discount={item.discount}
+                  onProductsPage={true}
                 ></Discount>
               ) : (
                 <>
@@ -131,6 +131,7 @@ class Product extends Component {
           >
             ADD TO CART
           </button>
+          {!item.inStock && <em style={{ color: "#gray" }}>out of stock</em>}
           <div data-testid="product-description">{parse(item.description)}</div>
         </div>
       </div>

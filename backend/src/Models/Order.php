@@ -25,7 +25,7 @@ abstract class AbstractOrder
         foreach ($this->items as $item) {
             $total += $item->getPriceAmount();
         }
-        return $total;
+        return round($total, 2);
     }
 
     public function addOrderItem(OrderItem $item): void
@@ -38,7 +38,7 @@ abstract class AbstractOrder
 
     public function __toString(): string
     {
-        return "Id: $this->id, Items: " . implode(", ", $this->items) . ", Order Date: $this->orderDate, Total: $this->total";
+        return "Id: $this->id, Items: " . implode(', ', $this->items) . ", Order Date: $this->orderDate, Total: $this->total";
     }
 }
 

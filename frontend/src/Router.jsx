@@ -9,6 +9,8 @@ import {
 import Product from "./pages/Product";
 import Layout from "./Layout";
 import Home from "./pages/Home";
+import Orders from "./pages/Orders";
+import Order from "./pages/Order";
 import { GraphQL } from "./graphql/graphqlClient";
 import { GET_CATEGORIES_QUERY } from "./graphql/queries";
 
@@ -32,11 +34,13 @@ class Router extends React.Component {
       const categories = data.categories;
 
       const dynamicRoutes = categories.map((category) => (
-        <Route key={category.id} path={`/${category.name.toLowerCase()}`} loader={() => {
-          return { category: category.name };
-        }}
-          element={
-            <Home />}
+        <Route
+          key={category.id}
+          path={`/${category.name.toLowerCase()}`}
+          loader={() => {
+            return { category: category.name };
+          }}
+          element={<Home />}
         />
       ));
 
@@ -46,6 +50,8 @@ class Router extends React.Component {
             <Route path="/" element={<Navigate to="/all" replace />} />
             {dynamicRoutes}
             <Route path="/product/:productId" element={<Product />} />
+            <Route path="/orders" element={<Orders></Orders>}></Route>
+            <Route path="/orders/:orderId" element={<Order></Order>}></Route>
           </Route>
         )
       );
@@ -67,9 +73,7 @@ class Router extends React.Component {
       return <div>Error: {error}</div>;
     }
 
-    return (
-      <RouterProvider router={router} />
-    )
+    return <RouterProvider router={router} />;
   }
 }
 

@@ -13,7 +13,6 @@
 
 .Layout {
   min-height: 100vh;
-  max-height: 100%;
   width: 100vw;
   box-sizing: border-box;
   position: relative;

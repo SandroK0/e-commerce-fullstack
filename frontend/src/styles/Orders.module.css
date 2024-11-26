@@ -1,0 +1,140 @@
+.orders {
+  width: 100%;
+  padding: 0 3%;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.heading {
+  font-size: 42px;
+  font-family: Raleway;
+  font-weight: 500;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.table {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tableHead {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f5f5f5;
+  padding: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #17376e;
+}
+
+.tableHead > div {
+  text-align: left;
+}
+
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+
+.tableRow {
+  position: relative;
+  display: flex;
+  align-items: centers;
+  justify-content: space-around;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  background-color: #f9f9f9;
+}
+
+.tableRow > div {
+  width: 200px;
+  text-align: left;
+}
+
+.tableHead > div {
+  width: 200px;
+  text-align: left;
+}
+
+.icon {
+  position: absolute;
+  right: 20px;
+  color: #999;
+  font-size: 1.2rem;
+  justify-self: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #ddd;
+  font-size: 0.9rem;
+  color: gray;
+
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #2255aa;
+  color: white;
+}
+
+.pagination button:disabled {
+  background-color: #eee;
+  cursor: not-allowed;
+}
+
+.pagination .activePage {
+  background-color: #2255aa;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .tableHead,
+  .tableRow {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+
+  .pagination button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .icon {
+    align-self: flex-end;
+  }
+}

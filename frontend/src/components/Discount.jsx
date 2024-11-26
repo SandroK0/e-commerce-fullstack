@@ -3,7 +3,7 @@ import styles from "../styles/Discount.module.css";
 
 export default class Discount extends Component {
   render() {
-    const { price, discount } = this.props;
+    const { price, discount, onProductsPage } = this.props;
 
     const discountedPrice = discount ? discount.new_amount : price.amount;
     const discountPercentage = discount
@@ -15,19 +15,33 @@ export default class Discount extends Component {
         <div className={styles.priceSection}>
           <span className={styles.originalPrice}>
             {discount && (
-              <span className={styles.strikethrough}>
+              <span
+                className={
+                  onProductsPage
+                    ? styles.strikethroughPP
+                    : styles.strikethrough
+                }
+              >
                 {price.currencySymbol}
                 {price.amount.toFixed(2)}
               </span>
             )}
           </span>
-          <span className={styles.discountedPrice}>
+          <span
+            className={
+              onProductsPage ? styles.discountedPricePP : styles.discountedPrice
+            }
+          >
             {price.currencySymbol}
             {discountedPrice.toFixed(2)}
           </span>
         </div>
         {discount && (
-          <div className={styles.discountBadge}>
+          <div
+            className={
+              onProductsPage ? styles.discountBadgePP : styles.discountBadge
+            }
+          >
             Save {discountPercentage}%!
           </div>
         )}

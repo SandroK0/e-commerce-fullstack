@@ -29,7 +29,7 @@
     background: Gray;
   }
   to {
-    background: #5ece7b;
+    background: #2255aa;
   }
 }
 
@@ -45,7 +45,7 @@
 }
 
 .addToCartBtnEnabled {
-  background: #5ece7b;
+  background: #2255aa;
   cursor: pointer;
   animation: colorChange 0.3s ease forwards;
   animation-fill-mode: forwards;

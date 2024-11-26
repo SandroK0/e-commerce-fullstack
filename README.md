@@ -7,6 +7,7 @@ This repository contains a full-stack e-commerce web application built with PHP 
 - Product listing
 - Cart functionality
 - Order placement through GraphQL mutation
+- Order Listing
 
 ## Tech Stack
 
@@ -30,12 +31,20 @@ This repository contains a full-stack e-commerce web application built with PHP 
 
 ![Screenshot 3](./screenshots/screenshot3.png)
 
+### Order Listing
+
+![Screenshot 4](./screenshots/screenshot4.png)
+
+### Order Details
+
+![Screenshot 5](./screenshots/screenshot5.png)
+
 ### Responsive Design
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./screenshots/screenshot4.png" alt="Screenshot 4" width="260"/>
-  <img src="./screenshots/screenshot5.png" alt="Screenshot 5" width="260"/>
   <img src="./screenshots/screenshot6.png" alt="Screenshot 6" width="260"/>
+  <img src="./screenshots/screenshot7.png" alt="Screenshot 7" width="260"/>
+  <img src="./screenshots/screenshot8.png" alt="Screenshot 8" width="260"/>
 </div>
 
 ## Getting Started
@@ -257,7 +266,7 @@ Below is a visual representation of the database tables using ASCII art:
     |currency_ |
     |symbol    |
     +----------+
-        
+
 +-------------------+        +---------------------+
 |    attributes     |        | product_attributes  |
 +-------------------+        +---------------------+

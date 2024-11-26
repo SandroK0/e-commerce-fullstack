@@ -24,7 +24,7 @@ class CategoryButton extends Component {
             this.props.navigate(`/${this.props.category}`);
             this.props.setShowCartOverlay(false);
           }}
-          style={this.isActive() ? { color: "#5ECE7B", fontWeight: 600 } : {}}
+          style={this.isActive() ? { color: "#2255aa", fontWeight: 600 } : {}}
         >
           {this.props.category.toUpperCase()}
         </NavLink>

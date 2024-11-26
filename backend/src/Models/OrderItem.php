@@ -26,7 +26,11 @@ abstract class AbstractOrderItem
 
     public function getPriceAmount(): float
     {
-        return $this->price->getAmount();
+        if ($this->discount) {
+            return $this->discount->getNewAmount();
+        } else {
+            return $this->price->getAmount();
+        }
     }
 
     abstract public function toArray(): array;

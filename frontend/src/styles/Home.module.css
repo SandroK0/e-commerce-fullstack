@@ -1,7 +1,6 @@
 .home {
   width: 100%;
-  margin-top: 80px;
-  margin-bottom: 40px;
+  height: fit-content;
   padding: 0 3%;
   box-sizing: border-box;
 }
@@ -9,7 +8,8 @@
 .categoryHeading {
   font-size: 42px;
   font-family: Raleway;
-  margin-bottom: 100px;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .itemGrid {

@@ -97,6 +97,23 @@ class ProductCard extends Component {
           {!product.inStock && (
             <div className={styles.outOfStockOverlay}>OUT OF STOCK</div>
           )}
+        </div>
+        <div className={styles.productInfo}>
+          <div>
+            <div className={styles.name}>{product.name}</div>
+            <div className={styles.price}>
+              {product.discount ? (
+                <Discount
+                  price={product.price}
+                  discount={product.discount}
+                ></Discount>
+              ) : (
+                <>
+                  {product.price.currency_symbol} {product.price.amount}
+                </>
+              )}
+            </div>
+          </div>
           {(isTouchDevice ? true : this.state.isHovered && product.inStock) ? (
             <button
               className={styles.cartBtn}
@@ -107,21 +124,6 @@ class ProductCard extends Component {
               <img src={cartBtn} alt="Cart Button" />
             </button>
           ) : undefined}
-        </div>
-        <div>
-          <div className={styles.name}>{product.name}</div>
-          <div className={styles.price}>
-            {product.discount ? (
-              <Discount
-                price={product.price}
-                discount={product.discount}
-              ></Discount>
-            ) : (
-              <>
-                {product.price.currency_symbol} {product.price.amount}
-              </>
-            )}
-          </div>
         </div>
       </div>
     );

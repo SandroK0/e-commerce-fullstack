@@ -77,6 +77,44 @@ export const GET_PRODUCT_BY_ID = `
   }
 `;
 
+export const GET_ORDERS_QUERY = `
+  query {
+    orders {
+      id
+      order_date
+      total
+      }
+    }
+`;
+
+export const GET_ORDER_BY_ID = `
+  query Order($order_id: Int!) {
+    order(order_id: $order_id) {
+      id
+      order_date
+      total
+      items {
+        product_id
+        name
+        quantity
+        attributes {
+          type
+          name
+          value
+        }
+        price {
+          amount
+          currency_label
+          currency_symbol
+        }
+        discount {
+          new_amount
+        }
+      }
+    }
+  }
+`;
+
 export const PLACE_ORDER = `
 mutation placeOrder($items: [OrderItemInput!]!) {
   placeOrder(items: $items) {

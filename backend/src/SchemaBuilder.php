@@ -129,6 +129,7 @@ class SchemaBuilder
                         return $this->attributeResolver->getOrderItemAttributes($item['item_id']);
                     }
                 ],
+                'images' => ['type' => Type::listOf(Type::string())],
                 'price' => ['type' => $priceType],
                 'discount' => ['type' => $discountType],
             ],
