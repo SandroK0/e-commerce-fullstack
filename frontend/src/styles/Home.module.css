@@ -1,5 +1,4 @@
 .home {
-  width: 100%;
   height: fit-content;
   padding: 0 3%;
   box-sizing: border-box;
@@ -24,7 +23,7 @@
 
 @media (max-width: 1300px) {
   .itemGrid {
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

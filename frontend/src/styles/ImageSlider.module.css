@@ -51,6 +51,7 @@
   overflow-y: scroll;
   overflow: scroll;
   width: 200px;
+  overflow-x: hidden;
 }
 
 .thumbnails img {
@@ -89,6 +90,7 @@
     flex-direction: row;
     max-height: 150px;
     overflow-x: scroll;
+    overflow-y: hidden;
     gap: 12px;
     padding-right: 0;
     width: 100%;
