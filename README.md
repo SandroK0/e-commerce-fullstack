@@ -1,4 +1,4 @@
-# Full-Stack E-commerce Web App [(view)](http://35.246.210.196)
+# Full-Stack E-commerce Web App
 
 This repository contains a full-stack e-commerce web application built with PHP (backend), React (frontend), MySQL (database), and GraphQL for data retrieval.
 
